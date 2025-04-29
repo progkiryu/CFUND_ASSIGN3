@@ -42,7 +42,12 @@ void removeStudent(int studentLen);
 
 int searchStudent(char* name, int studentLen, student* students); // done (denver)
 
+void flush(char input); //flushes fgets extra character (Andrew) work in progress
+
 // encryption functions
+void encryptFile(); // (Andrew) work in progress
+void decryptFile(); // (Andrew) work in progress
+
 // compression functions
 
 #endif
