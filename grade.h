@@ -1,6 +1,5 @@
 #ifndef GRADE_H // establish header file
 #define GRADE_H
-#include <stdio.h>
 
 // define constant numerical boundaries
 #define MAX_SUBJECTS 5
@@ -41,7 +40,7 @@ void inputStudent(student* students, int studentLen);
 
 void removeStudent(int studentLen);
 
-student searchStudent(char* name, int studentLen, student* students); // done (denver)
+int searchStudent(char* name, int studentLen, student* students); // done (denver)
 
 // encryption functions
 // compression functions
