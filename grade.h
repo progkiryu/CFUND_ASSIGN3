@@ -30,11 +30,11 @@ int calculateGrade(int mark); // done (denver)
 
 void addGrades(int studentLen, student* students); // done (denver)
 
-void removeGrades(int studentLen, student* students);
+void removeGrades(int studentLen, student* students); //Kevin
 
 char* addComment(student* student); // done (denver)
 
-void removeComment(student* student);
+void removeComment(student* student); //Kevin
 
 void inputStudent(student* students, int studentLen);
 
