@@ -1,5 +1,6 @@
 #ifndef GRADE_H // establish header file
 #define GRADE_H
+#include <stdio.h>
 
 // define constant numerical boundaries
 #define MAX_SUBJECTS 5
@@ -12,7 +13,7 @@ struct Subject {
     char name[MAX_SUB_LEN];
     int mark;
     char comment[MAX_COM_LEN];
-}
+};
 typedef struct Subject subject;
 
 struct Student {
@@ -20,23 +21,27 @@ struct Student {
     char name[MAX_NAME_LEN];
     int classNumber;
     
-    Subject subjects[MAX_SUBJECTS];
-    int subjectLen = 0; // keep track of subjects
+    subject subjects[MAX_SUBJECTS];
+    int subjectLen; // keep track of subjects
     double average;
-}
+};
 typedef struct Student student;
 
-int calculateGrade(int mark);
+int calculateGrade(int mark); // done (denver)
 
-void addGrade(int studentLen, Student* students);
+void addGrades(int studentLen, student* students); // done (denver)
 
-char* addComment(Student* student);
+void removeGrades(int studentLen, student* students);
 
-void inputStudent(Student* students, int studentLen);
+char* addComment(student* student); // done (denver)
 
-Student searchStudent(char* name, int studentLen, Student* students);
+void removeComment(student* student);
 
-void removeGrade
+void inputStudent(student* students, int studentLen);
+
+void removeStudent(int studentLen);
+
+student searchStudent(char* name, int studentLen, student* students); // done (denver)
 
 // encryption functions
 // compression functions
