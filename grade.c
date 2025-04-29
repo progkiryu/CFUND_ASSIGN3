@@ -125,3 +125,19 @@ void addGrade(int studentLen, student* students) {
     }
 }
 
+
+//Flush excess string after using fgets; requires <string.h>
+/*parameters: most recent used array_name for fgets, and the length of array*/
+void flush(char *arr, int lengthofArray){
+    int character;
+    char *p_string = NULL;
+
+    if((p_string = strchr(arr,'\n')) == NULL){ /*exceeding the array limit*/
+        while((character = getchar())!= '\n' && character != EOF); /*erase excess string*/
+        arr[lengthofArray-1] = '\0';
+    }
+    
+    else if((p_string = strchr(arr,'\n')) != NULL){ /*within the array limit*/
+        *p_string = '\0';
+    }
+}
