@@ -1,4 +1,4 @@
-#ifndef GRADE_H // establish header file
+#ifndef GRADE_H
 #define GRADE_H
 
 // define constant numerical boundaries
@@ -28,11 +28,11 @@ typedef struct Student student;
 
 int calculateGrade(int mark); // done (denver)
 
-void addGrades(int studentLen, student* students); // done (denver)
+void addGrades(int studentLen, student* students); // in progress (denver)
 
 void removeGrades(int studentLen, student* students);
 
-char* addComment(student* student); // done (denver)
+char* addComment(student* student); // in progress (denver)
 
 void removeComment(student* student);
 
@@ -40,7 +40,7 @@ void inputStudent(student* students, int studentLen);
 
 void removeStudent(int studentLen);
 
-int searchStudent(char* name, int studentLen, student* students); // done (denver)
+int searchStudent(char* name, student* inputStudent, int studentLen, student* students); // done (denver)
 
 void flush(char input); //flushes fgets extra character (Andrew) work in progress
 

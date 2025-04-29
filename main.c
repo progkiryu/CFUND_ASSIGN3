@@ -6,7 +6,7 @@
 void printMenu();
 
 int main(void) {
-    Student students[MAX_STUDENTS];
+    student students[MAX_STUDENTS];
     int studentLen = 0;
 
     printMenu();
