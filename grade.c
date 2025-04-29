@@ -140,4 +140,4 @@ void flush(char *arr, int lengthofArray){
     else if((p_string = strchr(arr,'\n')) != NULL){ /*within the array limit*/
         *p_string = '\0';
     }
-}
+} 
