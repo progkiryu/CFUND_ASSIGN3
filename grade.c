@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
-#include "grade.h" // include function prototypes
+#include "grade.h" /* include function prototypes */
 
-// calculate HSC bands via provided numerical mark
+/* calculate HSC bands via provided numerical mark */
 int calculateGrade(int mark) {
     if (mark >= 0 && mark <= 100) {
         if (mark >= 90) {
@@ -22,46 +22,53 @@ int calculateGrade(int mark) {
         }
         return 1;
     }
-    // sends out error integer if mark exceeds boundaries
+    /* sends out error integer if mark exceeds boundaries */
     return -1;
 }
 
-int searchStudent(char inputName, student* inputStudent, int studentLen, student* students) {
+int searchStudent(char inputName[MAX_NAME_LEN], student* inputStudent, 
+    int studentLen, student* students) {
     student currentStudent;
     int idx;
 
     for (idx = 0; idx < studentLen; idx++) {
         currentStudent = students[idx];
-        if (strcmp(currentStudent.name, inputName)) {
-            *(inputStudent)->name = inputName;
+        if (strcmp(currentStudent.name, inputName) == 0) {
+            strcpy(currentStudent.name, inputName);
             return 0;
         }
     }
     return -1;
 }
 
-void inputStudent(student* students, int studentLen) {
-    if (studentLen != MAX_STUDENTS){
+void inputStudent(student* students, int* studentLen) {
+    if (*studentLen != MAX_STUDENTS){
         student newStudent;
 
         printf("Enter student name: ");
         fgets(newStudent.name, sizeof(newStudent.name), stdin);
         sscanf(newStudent.name, "%[^\n]", newStudent.name);
+        
+        flush(newStudent.name, MAX_NAME_LEN);
 
         printf("Enter class number: ");
         scanf("%d", &newStudent.classNumber);
+        getchar();
 
-        // add student's subject 1 by 1
+        subject currentSubject;
+        /* add student's subject 1 by 1 */
         for (newStudent.subjectLen = 0; newStudent.subjectLen < MAX_SUBJECTS; 
             newStudent.subjectLen++) {
-            char subjectName = newStudent.subjects[newStudent.subjectLen].name;
+            currentSubject = newStudent.subjects[newStudent.subjectLen];
             printf("Enter subject name %d: ", newStudent.subjectLen + 1);
-            fgets(subjectName, sizeof(subjectName), stdin);
-            sscanf(subjectName, "%[^\n]", subjectName);
+            fgets(currentSubject.name, sizeof(currentSubject.name), stdin);
+            sscanf(currentSubject.name, "%[^\n]", currentSubject.name);
+
+            flush(currentSubject.name, MAX_SUB_LEN);
         }
 
-        students[studentLen] = newStudent;
-        studentLen++;
+        students[*studentLen] = newStudent;
+        *studentLen += 1;
         
         printf("Student put in database!\n");
     }
@@ -70,7 +77,26 @@ void inputStudent(student* students, int studentLen) {
     }
 }
 
-void addGrade(int studentLen, student* students) {
+void addComment(student* inputStudent, int subjectLen) {
+    char option[4];
+    
+    printf("Enter:\n");
+    printf("'yes' to comment\n");
+    printf("'no' to skip: ");
+    scanf("%s", option);
+
+    if (strcmp(option, "yes") == 0) {
+        student currentStudent = *inputStudent;
+        subject sub = currentStudent.subjects[subjectLen];
+        
+        printf("Write comment: ");
+        fgets(sub.comment, sizeof(sub.comment), stdin);
+        sscanf(sub.comment, "%[^\n]", sub.comment);
+    }
+
+}
+
+void addGrades(int studentLen, student* students) {
     if (studentLen > 0) {
         student currentStudent;
         char inputName[MAX_NAME_LEN];
@@ -78,22 +104,26 @@ void addGrade(int studentLen, student* students) {
         printf("Enter student name: ");
         fgets(inputName, sizeof(inputName), stdin);
         sscanf(inputName, "%[^\n]", inputName);
+        
+        flush(inputName, MAX_NAME_LEN);
 
-        // checks if student is in database via name search
+        /* checks if student is in database via name search */
         int found = searchStudent(inputName, &currentStudent, studentLen, 
             students);
         while (found == -1) {
-            
-            // user can leave if they want to exit
-            if (strcmp(inputName, "exit")) {
-                return;
-            }
+                
+            /* user can leave if they want to exit */
             /* if student is not found, either user can keep searching or 
             can leave the system */
             printf("Enter student name (type 'exit' to return to menu): ");
             fgets(inputName, sizeof(inputName), stdin);
             sscanf(inputName, "%[^\n]", inputName);
 
+            flush(inputName, MAX_NAME_LEN);
+            
+            if (strcmp(inputName, "exit") == 0) {
+                return;
+            }
 
             found = searchStudent(inputName, &currentStudent, studentLen, 
                 students);
@@ -104,20 +134,13 @@ void addGrade(int studentLen, student* students) {
 
         int idx;
         int inputMark;
-        char option[3];
 
         for (idx = 0; idx < subLen; idx++) {
-            printf("Enter mark for %s", subs[idx]);
+            printf("Enter mark for %s:", subs[idx].name);
             scanf("%d", &inputMark);
             subs[idx].mark = calculateGrade(inputMark);
 
-            printf("Enter:\n");
-            printf("'yes' to comment\n");
-            printf("'no' to skip: ");
-            scanf("%s", &option);
-            if (strcmp(option, "yes")) {
-                addComment(&currentStudent);
-            }
+            addComment(&currentStudent, subLen);
         }
     }
     else {
@@ -125,19 +148,9 @@ void addGrade(int studentLen, student* students) {
     }
 }
 
-
-//Flush excess string after using fgets; requires <string.h>
-/*parameters: most recent used array_name for fgets, and the length of array*/
-void flush(char *arr, int lengthofArray){
-    int character;
-    char *p_string = NULL;
-
-    if((p_string = strchr(arr,'\n')) == NULL){ /*exceeding the array limit*/
-        while((character = getchar())!= '\n' && character != EOF); /*erase excess string*/
-        arr[lengthofArray-1] = '\0';
+void flush(char *arr, int maxLength){
+    if(strlen(arr) == maxLength){ /*exceeding the array limit*/
+        while(getchar() == '\n'); /*erase excess string*/
     }
-    
-    else if((p_string = strchr(arr,'\n')) != NULL){ /*within the array limit*/
-        *p_string = '\0';
-    }
-} 
+
+}

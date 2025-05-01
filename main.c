@@ -2,7 +2,7 @@
 #include "grade.h"
 #include "grade.c"
 
-// print display menu
+/* print display menu */
 void printMenu();
 
 int main(void) {
@@ -10,15 +10,24 @@ int main(void) {
     int studentLen = 0;
 
     printMenu();
-    int inputNumber;
+    int inputNumber = 0;
     scanf("%d", &inputNumber);
 
-    while (inputNumber != 7) {
+    while (inputNumber != 11) {
         switch (inputNumber) {
             case 1:
-                addGrade(studentLen, students);
+                getchar();
+                inputStudent(students, &studentLen);
+                break;
+            case 4:
+                getchar();
+                addGrades(studentLen, students);
+                break;
+            case 11:
+                getchar();
                 break;
             default:
+                getchar();
                 printf("Please input a number between 1-6!\n");
                 break;
         }
@@ -32,12 +41,17 @@ int main(void) {
 void printMenu() {
     printf("\nWelcome to the Grading System:\n");
     printf("\n");
-    printf("1. Add Grade\n");
-    printf("2. Remove Grade\n");
-    printf("3. Save Grade to File\n");
-    printf("4. Remove Grade File\n");
-    printf("5. Encrypt Grade File\n");
-    printf("6. Decrypt Grade File\n");
-    printf("7. Exit program\n");
+    printf("1. Add Student\n");
+    printf("2: Remove Student\n");
+    printf("3. Display Student Database\n");
+    printf("4. Add Grades\n");
+    printf("5. Remove Grades\n");
+    printf("6. Save Grade to File\n");
+    printf("7. Remove Grade File\n");
+    printf("8. Encrypt Grade File\n");
+    printf("9. Decrypt Grade File\n");
+    printf("10. Compress Grade File\n");
+    printf("11. Decompress Grade File\n");
+    printf("12. Exit program\n");
     printf("\n");
 }
