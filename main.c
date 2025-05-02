@@ -23,7 +23,7 @@ int main(void) {
                 getchar();
                 addGrades(studentLen, students);
                 break;
-            case 11:
+            case 12:
                 getchar();
                 break;
             default:

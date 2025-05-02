@@ -20,7 +20,6 @@ struct Student {
     int classNumber;
     
     subject subjects[MAX_SUBJECTS];
-    int subjectLen; /* keep track of subjects */
     double average;
 };
 typedef struct Student student;

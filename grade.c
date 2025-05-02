@@ -34,7 +34,7 @@ int searchStudent(char inputName[MAX_NAME_LEN], student* inputStudent,
     for (idx = 0; idx < studentLen; idx++) {
         currentStudent = students[idx];
         if (strcmp(currentStudent.name, inputName) == 0) {
-            strcpy(currentStudent.name, inputName);
+            *inputStudent = currentStudent;
             return 0;
         }
     }
@@ -55,16 +55,16 @@ void inputStudent(student* students, int* studentLen) {
         scanf("%d", &newStudent.classNumber);
         getchar();
 
-        subject currentSubject;
+        int idx;
         /* add student's subject 1 by 1 */
-        for (newStudent.subjectLen = 0; newStudent.subjectLen < MAX_SUBJECTS; 
-            newStudent.subjectLen++) {
-            currentSubject = newStudent.subjects[newStudent.subjectLen];
-            printf("Enter subject name %d: ", newStudent.subjectLen + 1);
-            fgets(currentSubject.name, sizeof(currentSubject.name), stdin);
-            sscanf(currentSubject.name, "%[^\n]", currentSubject.name);
+        for (idx = 0; idx < MAX_SUBJECTS; idx++) {
+            printf("Enter subject name %d: ", idx + 1);
+            fgets(newStudent.subjects[idx].name, 
+                sizeof(newStudent.subjects[idx].name), stdin);
+            sscanf(newStudent.subjects[idx].name, "%[^\n]", 
+                newStudent.subjects[idx].name);
 
-            flush(currentSubject.name, MAX_SUB_LEN);
+            flush(newStudent.subjects[idx].name, MAX_SUB_LEN);
         }
 
         students[*studentLen] = newStudent;
@@ -129,18 +129,15 @@ void addGrades(int studentLen, student* students) {
                 students);
         }
 
-        int subLen = currentStudent.subjectLen;
-        subject* subs = currentStudent.subjects;
-
         int idx;
         int inputMark;
 
-        for (idx = 0; idx < subLen; idx++) {
-            printf("Enter mark for %s:", subs[idx].name);
+        for (idx = 0; idx < 5; idx++) {
+            printf("Enter mark for %s:", currentStudent.subjects[idx].name);
             scanf("%d", &inputMark);
-            subs[idx].mark = calculateGrade(inputMark);
+            currentStudent.subjects[idx].mark = calculateGrade(inputMark);
 
-            addComment(&currentStudent, subLen);
+            addComment(&currentStudent, idx);
         }
     }
     else {
@@ -152,5 +149,4 @@ void flush(char *arr, int maxLength){
     if(strlen(arr) == maxLength){ /*exceeding the array limit*/
         while(getchar() == '\n'); /*erase excess string*/
     }
-
 }
