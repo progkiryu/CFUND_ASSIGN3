@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "grade.h"
 #include "grade.c"
 
@@ -6,7 +7,7 @@
 void printMenu();
 
 int main(void) {
-    student students[MAX_STUDENTS];
+    node* head = (node*)malloc(1 * sizeof(node));
     int studentLen = 0;
 
     printMenu();
@@ -17,18 +18,18 @@ int main(void) {
         switch (inputNumber) {
             case 1:
                 getchar();
-                inputStudent(students, &studentLen);
+                inputStudent(head, &studentLen);
                 break;
             case 4:
                 getchar();
-                addGrades(studentLen, students);
+                addGrades(studentLen, head);
                 break;
             case 12:
                 getchar();
                 break;
             default:
                 getchar();
-                printf("Please input a number between 1-6!\n");
+                printf("Please input a number between 1-12!\n");
                 break;
         }
         printMenu();

@@ -24,21 +24,28 @@ struct Student {
 };
 typedef struct Student student;
 
+/* linked list node */
+struct Node {
+    struct Node* next;
+    student nodeStudent;
+};
+typedef struct Node node;
+
 int calculateGrade(int mark); /* done (denver) */
 
-void addGrades(int studentLen, student* students); /* in progress (denver) */
+void addGrades(int studentLen, node* inputNode); /* done (denver) */
 
 /*void removeGrades(int studentLen, student* students);  Kevin */
 
-void addComment(student* inputStudent, int subjectLen); /* in progress (denver) */
+void addComment(student* inputStudent, int subjectLen); /* done (denver) */
 
 /*void removeComment(student* inputStudent);  Kevin */
 
-void inputStudent(student* students, int* studentLen);
+void inputStudent(node* inputNode, int* studentLen);
 
 /*void removeStudent(int studentLen);*/
 
-int searchStudent(char inputName[MAX_NAME_LEN], student* inputStudent, int studentLen, student* students); /* done (denver) */
+int searchStudent(char inputName[MAX_NAME_LEN], student* inputStudent, node* inputNode); /* done (denver) */
 
 void flush(char *arr, int lengthofArray); /* done (Andrew) */
 
