@@ -2,10 +2,10 @@
 #define GRADE_H
 
 /* define constant numerical boundaries */
+#define MAX_STUDENTS 10
 #define MAX_SUBJECTS 5
 #define MAX_SUB_LEN 20
 #define MAX_COM_LEN 50
-#define MAX_STUDENTS 10
 #define MAX_NAME_LEN 50
 
 struct Subject {
@@ -20,6 +20,7 @@ struct Student {
     int classNumber;
     
     subject subjects[MAX_SUBJECTS];
+    int subjectLen;
     double average;
 };
 typedef struct Student student;
@@ -31,21 +32,23 @@ struct Node {
 };
 typedef struct Node node;
 
-int calculateGrade(int mark); /* done (denver) */
+void inputStudent(node** inputNode, int* studentLen); /* done (denver) */
+
+int searchStudent(char inputName[MAX_NAME_LEN], student* inputStudent, node* inputNode); /* done (denver) */
 
 void addGrades(int studentLen, node* inputNode); /* done (denver) */
 
-/*void removeGrades(int studentLen, student* students);  Kevin */
+int calculateGrade(int mark); /* done (denver) */
+
+void displayStudents(node* inputNode, int studentLen); /* in progress (denver)*/
 
 void addComment(student* inputStudent, int subjectLen); /* done (denver) */
 
+/*void removeGrades(int studentLen, student* students);  Kevin */
+
 /*void removeComment(student* inputStudent);  Kevin */
 
-void inputStudent(node* inputNode, int* studentLen);
-
 /*void removeStudent(int studentLen);*/
-
-int searchStudent(char inputName[MAX_NAME_LEN], student* inputStudent, node* inputNode); /* done (denver) */
 
 void flush(char *arr, int lengthofArray); /* done (Andrew) */
 

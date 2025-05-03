@@ -1,24 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "grade.h"
+#include "system.h"
 #include "grade.c"
+#include "student.c"
+#include "flush.c"
 
 /* print display menu */
 void printMenu();
 
 int main(void) {
-    node* head = (node*)malloc(1 * sizeof(node));
+    /* initialise linked list */
+    node* head = NULL;
     int studentLen = 0;
 
     printMenu();
     int inputNumber = 0;
     scanf("%d", &inputNumber);
 
-    while (inputNumber != 11) {
+    while (inputNumber != 12) {
         switch (inputNumber) {
             case 1:
                 getchar();
-                inputStudent(head, &studentLen);
+                inputStudent(&head, &studentLen);
+                break;
+            case 3:
+                getchar();
+                displayStudents(head, studentLen);
                 break;
             case 4:
                 getchar();
