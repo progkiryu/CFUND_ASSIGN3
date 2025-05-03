@@ -32,7 +32,7 @@ int main(void) {
                 addGrades(studentLen, head);
                 break;
             case 12:
-                getchar();
+                while (getchar() != '\n') {}
                 break;
             default:
                 getchar();

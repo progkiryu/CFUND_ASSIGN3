@@ -36,11 +36,13 @@ void inputStudent(node** inputNode, int* studentLen); /* done (denver) */
 
 int searchStudent(char inputName[MAX_NAME_LEN], student* inputStudent, node* inputNode); /* done (denver) */
 
+/* void removeStudent(node** inputNode, int* studentLen); */
+
 void addGrades(int studentLen, node* inputNode); /* done (denver) */
 
 int calculateGrade(int mark); /* done (denver) */
 
-void displayStudents(node* inputNode, int studentLen); /* in progress (denver)*/
+void displayStudents(node* inputNode, int studentLen); /* done (denver)*/
 
 void addComment(student* inputStudent, int subjectLen); /* done (denver) */
 

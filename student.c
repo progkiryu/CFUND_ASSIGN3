@@ -54,7 +54,7 @@ void inputStudent(node** inputNode, int* studentLen) {
             fgets(newStudent.name, sizeof(newStudent.name), stdin);
             sscanf(newStudent.name, "%[^\n]", newStudent.name);
 
-            flush(newStudent.name, strlen(newStudent.name));
+            flush(newStudent.name, MAX_NAME_LEN);
                         
             if (strcmp(newStudent.name, "exit") == 0) {
                 return;
@@ -66,7 +66,7 @@ void inputStudent(node** inputNode, int* studentLen) {
 
         printf("Enter class number: ");
         scanf("%d", &newStudent.classNumber);
-        getchar();
+        while (getchar() != '\n') {}
 
         int idx;
         /* add student's subject 1 by 1 */
