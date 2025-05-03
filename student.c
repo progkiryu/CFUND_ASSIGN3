@@ -44,15 +44,15 @@ void inputStudent(node** inputNode, int* studentLen) {
 
         printf("\nEnter student name: ");
         fgets(newStudent.name, sizeof(newStudent.name), stdin);
-        sscanf(newStudent.name, "%[^\n]", newStudent.name);
         
+        flush(newStudent.name, MAX_NAME_LEN);
+
         int found;
         found = searchStudent(newStudent.name, &newStudent, *inputNode);
         while (found == 0) {
             printf("Student already exists!\n");
             printf("Enter student name (type 'exit' to return to menu): ");
             fgets(newStudent.name, sizeof(newStudent.name), stdin);
-            sscanf(newStudent.name, "%[^\n]", newStudent.name);
 
             flush(newStudent.name, MAX_NAME_LEN);
                         
@@ -74,8 +74,6 @@ void inputStudent(node** inputNode, int* studentLen) {
             printf("Enter subject name %d: ", idx + 1);
             fgets(newStudent.subjects[idx].name, 
                 sizeof(newStudent.subjects[idx].name), stdin);
-            sscanf(newStudent.subjects[idx].name, "%[^\n]", 
-                newStudent.subjects[idx].name);
 
             flush(newStudent.subjects[idx].name, MAX_SUB_LEN);
         }

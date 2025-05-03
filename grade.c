@@ -42,7 +42,6 @@ void addComment(student* inputStudent, int subjectLen) {
         
         printf("Write comment: ");
         fgets(sub.comment, sizeof(sub.comment), stdin);
-        sscanf(sub.comment, "%[^\n]", sub.comment);
 
         flush(sub.comment, strlen(sub.comment));
     }
@@ -57,7 +56,6 @@ void addGrades(int studentLen, node* inputNode) {
         
         printf("\nEnter student name: ");
         fgets(inputName, sizeof(inputName), stdin);
-        sscanf(inputName, "%[^\n]", inputName);
         
         flush(inputName, MAX_NAME_LEN);
 
@@ -70,7 +68,6 @@ void addGrades(int studentLen, node* inputNode) {
             can leave the system */
             printf("Enter student name (type 'exit' to return to menu): ");
             fgets(inputName, sizeof(inputName), stdin);
-            sscanf(inputName, "%[^\n]", inputName);
 
             flush(inputName, MAX_NAME_LEN);
             
