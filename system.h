@@ -50,7 +50,7 @@ void displayStudents(node* inputNode, int studentLen); /* done (denver)*/
 
 void addComment(student* inputStudent, int subjectLen); /* done (denver) */
 
-/*void removeGrades(int studentLen, student* students);  Kevin */
+void removeGrades(int studentLen, node* students);/* Kevin */
 
 /*void removeComment(student* inputStudent);  Kevin */
 
