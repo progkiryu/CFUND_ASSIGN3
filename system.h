@@ -1,6 +1,8 @@
 #ifndef GRADE_H
 #define GRADE_H
 
+#define DEBUG
+
 /* define constant numerical boundaries */
 #define MAX_STUDENTS 10
 #define MAX_SUBJECTS 5

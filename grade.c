@@ -35,6 +35,7 @@ void addComment(student* inputStudent, int subjectLen) {
     printf("'1' to comment\n");
     printf("any to skip: ");
     scanf("%d", &option);
+    getchar();
 
     if (option == 1) {
         student currentStudent = *inputStudent;
@@ -43,10 +44,8 @@ void addComment(student* inputStudent, int subjectLen) {
         printf("Write comment: ");
         fgets(sub.comment, sizeof(sub.comment), stdin);
 
-        flush(sub.comment, strlen(sub.comment));
+        flush(sub.comment, MAX_COM_LEN);
     }
-    getchar();
-
 }
 
 void addGrades(int studentLen, node* inputNode) {

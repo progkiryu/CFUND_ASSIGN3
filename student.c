@@ -34,7 +34,7 @@ void displayStudents(node* inputNode, int studentLen) {
         }
     }
     else {
-        printf("There are no students on file!\n");
+        printf("\nThere are no students on file!\n");
     }
 }
 
@@ -44,7 +44,6 @@ void inputStudent(node** inputNode, int* studentLen) {
 
         printf("\nEnter student name: ");
         fgets(newStudent.name, sizeof(newStudent.name), stdin);
-        
         flush(newStudent.name, MAX_NAME_LEN);
 
         int found;
@@ -62,7 +61,6 @@ void inputStudent(node** inputNode, int* studentLen) {
             found = searchStudent(newStudent.name, &newStudent, *inputNode);
         } 
 
-        flush(newStudent.name, MAX_NAME_LEN);
 
         printf("Enter class number: ");
         scanf("%d", &newStudent.classNumber);
