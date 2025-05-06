@@ -63,5 +63,6 @@ void encryptFile(); /* (Andrew) work in progress */
 void decryptFile(); /* (Andrew) work in progress */
 
 /* compression functions */
-
+void compressWithDictionary();  /*Subnoor*/
+void decompressionWithDictionary(); /*Subnoor*/
 #endif

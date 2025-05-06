@@ -1,4 +1,4 @@
-/*This is very rough and it might be wrong as even after watching a bunch of videos I wasn't too sure bow to go about this*/
+/*This is very iffy and it might be wrong as even after watching a bunch of videos I wasn't too sure bow to go about this*/
 /*Im not sure what the file names are so i used placeholders like inputfilename etc*/
 /*Also for the main file I think this is gonna be needed to compress the data as its being saved*/
 /*case 6:
