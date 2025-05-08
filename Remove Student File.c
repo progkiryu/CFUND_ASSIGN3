@@ -56,6 +56,7 @@ void removeStudent(node** inputNode, int* studentLen){
         free(removeStudent_node);
 
         *studentLen -= 1;
+        printf("Student successfully removed.");
     }
 }
 
