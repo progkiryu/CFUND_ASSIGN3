@@ -54,7 +54,6 @@ void removeStudent(node** inputNode, int* studentLen){
         }
         //free linked list memory
         free(removeStudent_node -> next);
-        free(removeStudent_node -> nodeStudent);
         free(removeStudent_node);
 
         *studentLen -= 1;
