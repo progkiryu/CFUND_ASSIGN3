@@ -4,7 +4,6 @@
 void removeStudent(node** inputNode, int* studentLen);
 //still drafting, W.I.P
 
-/*
 void removeStudent(node** inputNode, int* studentLen){
 
     int found;
@@ -23,30 +22,8 @@ void removeStudent(node** inputNode, int* studentLen){
 
     else if(found == 0){
         //true
-
-        /*while (inputNode != NULL) {
-        currentStudent = inputNode->nodeStudent;
-        if (strcmp(currentStudent.name, inputName) == 0) {
-            *inputStudent = currentStudent;
-        }*/
-
-        node* temp,* prev_node = NULL,* later_node;
-        node* removeStudent_node;
-        int i, j;
-
+        node* temp,* prev_node,* later_node, * removeStudent_node;
         temp = *inputNode;
-        
-        /*
-        prev_node = *inputNode;
-            removeStudent_node = temp;
-            later_node = removeStudent_node -> next;
-            
-            if(strcmp(removeStudent_node -> nodeStudent.name, currentStudent.name) == 0){
-                temp = NULL;
-                break;
-            }
-            temp = temp -> next;
-        */
 
         while(temp != NULL){
             prev_node = temp;
@@ -56,34 +33,32 @@ void removeStudent(node** inputNode, int* studentLen){
             if(strcmp(removeStudent_node -> nodeStudent.name, currentStudent.name) == 0){
                 break;
             }
-            
+
             //else if starting node is the student to be removed
             else if(strcmp(prev_node -> nodeStudent.name, currentStudent.name) == 0){
                 removeStudent_node = prev_node;
                 later_node = removeStudent_node -> next;
                 prev_node = NULL;
+                break;
             }
             temp = temp -> next;
         }
         
-        
-        
-        //temp->next
-        //temp->next->next
 
-        //finding the nodes before and after
-        //Remove student from linked list
-        //check to see if prevNode or laterNode is NULL, this will mean 
-        //join ends of linked list together
-    
-    //Run 3 times until it obtains prev node, 
-        for(i = 0, i=<3,i++){
-            prev_node = temp;
-            removeStudent_node = temp -> next;
-            later_node = temp -> next -> next;
+        if(prev_node != NULL){
+            prev_node -> next = later_node;
         }
-
-
+        //if entry node was to be removed, changes the linked list head
+        else if(prev_node == NULL){
+            *inputNode = removeStudent_node;
+        }
+        //free linked list memory
+        free(removeStudent_node -> next);
+        free(removeStudent_node -> nodeStudent);
+        free(removeStudent_node);
     }
 
-*/
+        //finding the nodes before and after (done)
+        //Remove student from linked list (done)
+        //check to see if prevNode or laterNode is NULL (done)
+        //join ends of linked list together (done)
