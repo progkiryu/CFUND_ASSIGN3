@@ -50,7 +50,7 @@ void removeStudent(node** inputNode, int* studentLen){
         }
         //if entry node was to be removed, changes the linked list head
         else if(prev_node == NULL){
-            *inputNode = removeStudent_node;
+            *inputNode = later_node;
         }
         //free linked list memory
         free(removeStudent_node);
