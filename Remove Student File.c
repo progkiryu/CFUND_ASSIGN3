@@ -29,12 +29,13 @@ void removeStudent(node** inputNode, int* studentLen){
             prev_node = temp;
             removeStudent_node = temp -> next;
             later_node = temp -> next -> next;
-
+            
+            //if student name lines up with node in linked list 
             if(strcmp(removeStudent_node -> nodeStudent.name, currentStudent.name) == 0){
                 break;
             }
 
-            //else if starting node is the student to be removed
+            //considering condition: entry node is the student to be removed
             else if(strcmp(prev_node -> nodeStudent.name, currentStudent.name) == 0){
                 removeStudent_node = prev_node;
                 later_node = removeStudent_node -> next;
@@ -44,7 +45,7 @@ void removeStudent(node** inputNode, int* studentLen){
             temp = temp -> next;
         }
         
-
+        //mending the linked list, removing student from list
         if(prev_node != NULL){
             prev_node -> next = later_node;
         }
