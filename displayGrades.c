@@ -30,7 +30,7 @@ void displayGrades(node** inputNode){
 
         for(idx = 0; idx < subjectLen; idx++){
         grade = current_student.subjects[idx].mark;
-        subject = current_student.subjects[idx].name;
+        strcpy(subject, current_student.subjects[idx].name);
         
         printf("%-*s", MAX_SUB_LEN, subject);
         printf(" %.2d\n", grade);
