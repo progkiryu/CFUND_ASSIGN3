@@ -56,7 +56,10 @@ void removeStudent(node** inputNode, int* studentLen){
         free(removeStudent_node -> next);
         free(removeStudent_node -> nodeStudent);
         free(removeStudent_node);
+
+        *studentLen -= 1;
     }
+}
 
         //finding the nodes before and after (done)
         //Remove student from linked list (done)
