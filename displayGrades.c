@@ -22,7 +22,7 @@ void displayGrades(node** inputNode){
     else if(found == 0){
         //true
         int idx, grade;
-        int subjectLen = student_name.subjectLen;
+        int subjectLen = current_student.subjectLen;
         char subject[MAX_SUB_LEN];
         
         printf("%-*s %s\n", MAX_SUB_LEN, Subject, Grades);
