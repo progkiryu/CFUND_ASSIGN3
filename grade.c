@@ -93,3 +93,39 @@ void addGrades(int studentLen, node* inputNode) {
         printf("There are no students to grade!\n");
     }
 }
+
+//Work in progress
+
+void displayGrades(node** inputNode){
+    char student_name[MAX_NAME_LEN];
+    student current_student;
+    int found;
+
+    printf("Please input student name: ");
+    fgets(student_name, sizeof(student_name), stdin);
+    flush(student_name, MAX_NAME_LEN);
+
+    found = searchStudent(student_name, &current_student, *inputNode);
+    
+    if(found != 0){
+        /*false*/
+        printf("This student does not exist");
+    }
+    
+    else if(found == 0){
+        /*true*/
+        int idx, grade;
+        char subject[MAX_SUB_LEN];
+        
+        printf("\n%-*s %s\n", MAX_SUB_LEN, "Subject", "Grades");
+        printf("------------------------------\n");
+
+        for(idx = 0; idx < 5; idx++){
+        grade = current_student.subjects[idx].mark;
+        strcpy(subject, current_student.subjects[idx].name);
+        
+        printf("%-*s", MAX_SUB_LEN, subject);
+        printf(" %d\n", grade);
+        }
+    }
+}

@@ -26,6 +26,7 @@ int main(void) {
             case 2:
                 getchar();
                 removeStudent(&head, &studentLen);
+                break;
             case 3:
                 getchar();
                 displayStudents(head, studentLen);
