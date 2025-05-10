@@ -10,8 +10,14 @@ main.o: main.c
 grade: grade.o
 	$(CC) $(CFLAGS) -o grade grade.o
 
-grade.o: grade.c grade.h
+grade.o: grade.c system.h
 	$(CC) $(CFLAGS) -c grade.c
 
+student: student.o
+	$(CC) $(CFLAGS) -o student student.o
+
+student.o: student.c system.h
+	$(CC) $(CFLAGS) -c student.c	
+
 clean:
-	rm -f main grade *.o
+	rm -f main grade student *.o

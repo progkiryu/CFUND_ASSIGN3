@@ -94,7 +94,7 @@ void addGrades(int studentLen, node* inputNode) {
     }
 }
 
-//Work in progress
+/*Work in progress */
 
 void displayGrades(node** inputNode){
     char student_name[MAX_NAME_LEN];

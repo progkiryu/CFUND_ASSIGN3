@@ -54,8 +54,6 @@ void removeGrades(int studentLen, node* students);/* Kevin */
 
 /*void removeComment(student* inputStudent);  Kevin */
 
-/*void removeStudent(int studentLen);*/
-
 void flush(char *arr, int lengthofArray); /* done (Andrew) */
 
 /* encryption functions */
