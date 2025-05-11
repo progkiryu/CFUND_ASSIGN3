@@ -114,7 +114,6 @@ void addGrades(int studentLen, node* inputNode) {
                     passLoop = 1;
                 }
             }
-            printf("%d\n", inputMark);
             
             /*finding address of node to change mark*/
             node* temp;
@@ -123,14 +122,10 @@ void addGrades(int studentLen, node* inputNode) {
                 if(strcmp( temp -> nodeStudent.name, currentStudent.name) == 0){
                     break;
                 }
-                else{
-                temp = temp -> next;
-                }
+                else{temp = temp -> next;}
             }
-
-            temp -> nodeStudent.subjects[idx].mark = inputMark;
-            printf("%d\n", temp -> nodeStudent.subjects[idx].mark);
-
+            temp -> nodeStudent.subjects[idx].mark = calculateGrade(inputMark);
+            
             addComment(&currentStudent, idx);
         }
         printf("Grades filled in for %s!\n", currentStudent.name);
@@ -140,38 +135,37 @@ void addGrades(int studentLen, node* inputNode) {
     }
 }
 
-/*Work in progress */
 
 void displayGrades(node** inputNode){
     char student_name[MAX_NAME_LEN];
-    student current_student;
+    student currentStudent;
     int found;
 
     printf("Please input student name: ");
-    fgets(student_name, sizeof(student_name), stdin);
+    fgets(student_name, MAX_NAME_LEN, stdin);
     flush(student_name, MAX_NAME_LEN);
 
-    found = searchStudent(student_name, &current_student, *inputNode);
+    found = searchStudent(student_name, &currentStudent, *inputNode);
     
     if(found != 0){
         /*false*/
         printf("This student does not exist");
+        return;
     }
     
     else if(found == 0){
         /*true*/
-        int idx, grade;
-        char subject[MAX_SUB_LEN];
+        int idx;
         
         printf("\n%-*s %s\n", MAX_SUB_LEN, "Subject", "Grades");
         printf("------------------------------\n");
 
         for(idx = 0; idx < 5; idx++){
-        grade = current_student.subjects[idx].mark;
-        strcpy(subject, current_student.subjects[idx].name);
         
-        printf("%-*s", MAX_SUB_LEN, subject);
-        printf(" %d\n", grade);
+        printf("%-*s", MAX_SUB_LEN, currentStudent.subjects[idx].name);
+        printf(" %d\n", currentStudent.subjects[idx].mark);
         }
+        
+        return;
     }
 }
