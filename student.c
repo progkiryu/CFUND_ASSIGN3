@@ -74,6 +74,7 @@ void inputStudent(node** inputNode, int* studentLen) {
                 sizeof(newStudent.subjects[idx].name), stdin);
 
             flush(newStudent.subjects[idx].name, MAX_SUB_LEN);
+            newStudent.subjects[idx].mark = 0;
         }
 
         node* currentNode = *inputNode;
