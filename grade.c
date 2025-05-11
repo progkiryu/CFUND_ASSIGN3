@@ -77,13 +77,57 @@ void addGrades(int studentLen, node* inputNode) {
             found = searchStudent(inputName, &currentStudent, inputNode);
         }
 
-        int idx;
+        int idx, i, ascii, passLoop = 1;
+        /*length of 5 just in case input is 4 digit like 1000 + '\0'*/
+        char stringinputMark[5];
         int inputMark;
 
         for (idx = 0; idx < 5; idx++) {
-            printf("Enter mark for %s: ", currentStudent.subjects[idx].name);
-            scanf("%d", &inputMark);
-            currentStudent.subjects[idx].mark = calculateGrade(inputMark);
+            passLoop = 1;
+            while(1){
+                if(passLoop == 0){break;}
+                passLoop = 0;
+
+                printf("\nEnter mark for %s: ", currentStudent.subjects[idx].name);
+                fgets(stringinputMark, 5, stdin);
+                flush(stringinputMark, 5);
+                
+                /*Checking ASCII characters, making sure within number char range*/
+                for(i=0; stringinputMark[i] != '\0'; i++){
+                    ascii = stringinputMark[i];
+                    if(ascii < 48 || ascii > 57){
+                        passLoop = 1;
+                    }
+                }
+                /*if number outside character range*/
+                if(passLoop == 1){
+                printf("Please input numbers, try again..\n\n");
+                }
+                /*convert string to int*/
+                inputMark = atoi(stringinputMark);
+                
+                /*if input is integers & inputmark within 0-100 range*/
+                if(passLoop!=1 && (inputMark < 0 || inputMark >100)){
+                    printf("Grade needs to be within 0 - 100, try again..\n\n");
+                    passLoop = 1;
+                }
+            }
+            printf("%d\n", inputMark);
+            
+            /*finding address of node to change mark*/
+            node* temp;
+            temp = inputNode;
+            while(temp != NULL){
+                if(strcmp( temp -> nodeStudent.name, currentStudent.name) == 0){
+                    break;
+                }
+                else{
+                temp = temp -> next;
+                }
+            }
+
+            temp -> nodeStudent.subjects[idx].mark = inputMark;
+            printf("%d\n", temp -> nodeStudent.subjects[idx].mark);
 
             addComment(&currentStudent, idx);
         }
