@@ -30,13 +30,15 @@ int calculateGrade(int mark) {
 
 void addComment(student* inputStudent, int subjectLen) {
     int option;
-    
+    char optionString[3];
+
     printf("\nEnter:\n");
     printf("'1' to comment\n");
     printf("any to skip: ");
-    scanf("%d", &option);
-    getchar();
-
+    fgets(optionString, 3, stdin);
+    flush(optionString, 3);
+    option = atoi(optionString);
+    
     if (option == 1) {
         student currentStudent = *inputStudent;
         subject sub = currentStudent.subjects[subjectLen];
