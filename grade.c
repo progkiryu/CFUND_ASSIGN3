@@ -156,7 +156,7 @@ void displayGrades(node** inputNode){
         /*true*/
         int idx;
         
-        printf("\n%-*s %s\n", MAX_SUB_LEN, "Subject", "Grades");
+        printf("\n%-*s %s\n", MAX_SUB_LEN, "Subject", "Bands");
         printf("------------------------------\n");
 
         for(idx = 0; idx < 5; idx++){
