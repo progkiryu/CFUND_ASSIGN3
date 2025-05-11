@@ -1,3 +1,8 @@
+/*case 11:
+    getchar();  
+    decompressAndDisplayStudent("grades_compressed.txt");
+    break;*/
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
