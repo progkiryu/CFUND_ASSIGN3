@@ -50,9 +50,9 @@ void displayStudents(node* inputNode, int studentLen); /* done (denver)*/
 
 void addComment(student* inputStudent, int subjectLen); /* done (denver) */
 
-void removeGrades(int studentLen, node* students);/* Kevin */
+void saveToFile(node* head);/* Kevin */
 
-/*void removeComment(student* inputStudent);  Kevin */
+/*void deleteFile(const char* filename);  Kevin */
 
 void flush(char *arr, int lengthofArray); /* done (Andrew) */
 
