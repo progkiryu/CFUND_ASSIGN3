@@ -1,6 +1,5 @@
-
-
-
+/*This function stores students' grades and comments in files named by the user (default is .txt),
+and prompts a warning before overwriting existing files.*/
 
 #include <stdio.h>
 #include <stdlib.h>
