@@ -39,6 +39,10 @@ int main(void) {
                 getchar();
                 displayGrades(&head);
                 break;
+            case 7:
+                getchar();
+                saveToFile(head);
+                break;
             case 12:
                 while (getchar() != '\n') {}
                 break;
