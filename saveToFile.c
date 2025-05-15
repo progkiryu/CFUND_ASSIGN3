@@ -8,7 +8,7 @@
 #include "struct.h"  
 
 //Check the contents of the list
-void saveAllGrades(node* head) {
+void saveToFile(node* head) {
     if (head == NULL) {
         printf("The list is empty!\n"); 
         return;
