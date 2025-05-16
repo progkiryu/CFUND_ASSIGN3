@@ -156,13 +156,14 @@ void displayGrades(node** inputNode){
         /*true*/
         int idx;
         
-        printf("\n%-*s %s\n", MAX_SUB_LEN, "Subject", "Bands");
-        printf("------------------------------\n");
+        printf("\n%-*s %-14s %s", MAX_SUB_LEN, "Subject", "Bands", "Comments");
+        printf("\n--------------------------------------------\n");
 
         for(idx = 0; idx < 5; idx++){
         
         printf("%-*s", MAX_SUB_LEN, currentStudent.subjects[idx].name);
-        printf(" %d\n", currentStudent.subjects[idx].mark);
+        printf(" %-14d", currentStudent.subjects[idx].mark);
+        printf("%s\n", currentStudent.subjects[idx].comment);
         }        
         return;
     }
