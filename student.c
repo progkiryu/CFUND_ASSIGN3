@@ -75,6 +75,7 @@ void inputStudent(node** inputNode, int* studentLen) {
 
             flush(newStudent.subjects[idx].name, MAX_SUB_LEN);
             newStudent.subjects[idx].mark = 0;
+            newStudent.subjects[idx].comment[0] = '\0';
         }
 
         node* currentNode = *inputNode;
