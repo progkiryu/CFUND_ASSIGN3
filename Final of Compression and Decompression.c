@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
 #include "system.h"
 
 #define COMPRESSED_FILE "compressed_data.txt"
@@ -53,28 +54,41 @@ void compressStudentGrades(node* head) {
     int i;
     const char* subj;
     const char* com;
+    char filename[256];
 
-    f = fopen(COMPRESSED_FILE, "w");
-    if (!f) {
-        printf("Error opening file for compression.\n");
-        return;
-    }
+#ifdef _WIN32
+    _mkdir("grades_compressed");
+#else
+    mkdir("grades_compressed", 0777);
+#endif
 
     curr = head;
     while (curr) {
         s = curr->nodeStudent;
+
+        strcpy(filename, "grades_compressed/");
+        strcat(filename, s.name);
+        strcat(filename, ".txt");
+
+        f = fopen(filename, "w");
+        if (!f) {
+            printf("Error opening file for student %s.\n", s.name);
+            curr = curr->next;
+            continue;
+        }
+
         fprintf(f, "%s|%d|%d\n", s.name, s.classNumber, MAX_SUBJECTS);
-        int i;
         for (i = 0; i < MAX_SUBJECTS; i++) {
             subj = compressWithDict(s.subjects[i].name, subjectDict, subjectDictLen);
             com = compressWithDict(s.subjects[i].comment, commentDict, commentDictLen);
             fprintf(f, "%s,%d,%s\n", subj, s.subjects[i].mark, com);
         }
+
+        fclose(f);
         curr = curr->next;
     }
 
-    fclose(f);
-    printf("Student data compressed and saved to '%s'.\n", COMPRESSED_FILE);
+    printf("All student data compressed into 'grades_compressed' folder.\n");
 }
 
 void decompressStudentGrades() {
@@ -88,33 +102,40 @@ void decompressStudentGrades() {
     int mark;
     const char* fullSub;
     const char* fullCom;
+    char filename[256];
+    char inputName[MAX_NAME_LEN];
 
-    f = fopen(COMPRESSED_FILE, "r");
+    printf("Enter student name to decompress: ");
+    fgets(inputName, sizeof(inputName), stdin);
+    inputName[strcspn(inputName, "\n")] = '\0'; /* remove newline */
+
+    strcpy(filename, "grades_compressed/");
+    strcat(filename, inputName);
+    strcat(filename, ".txt");
+
+    f = fopen(filename, "r");
     if (!f) {
-        printf("No compressed data found.\n");
+        printf("Compressed file for %s not found.\n", inputName);
         return;
     }
 
-    while (fgets(line, sizeof(line), f)) {
+    if (fgets(line, sizeof(line), f)) {
         sscanf(line, "%[^|]|%d|%d", name, &classNum, &subCount);
         printf("\nStudent: %s | Class: %d\n", name, classNum);
 
         printf("%-*s %-6s %s\n", MAX_SUB_LEN, "Subject", "Mark", "Comment");
         printf("------------------------------------------\n");
 
-        int i;
         for (i = 0; i < subCount; i++) {
             if (!fgets(line, sizeof(line), f)) {
                 break;
             }
             sscanf(line, "%[^,],%d,%[^\n]", subjectCode, &mark, commentCode);
-
             fullSub = decompressWithDict(subjectCode, subjectDict, subjectDictLen);
             fullCom = decompressWithDict(commentCode, commentDict, commentDictLen);
-
             printf("%-*s %-6d %s\n", MAX_SUB_LEN, fullSub, mark, fullCom);
         }
     }
+
     fclose(f);
 }
-
