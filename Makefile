@@ -19,8 +19,11 @@ student: student.o
 student.o: student.c system.h
 	$(CC) $(CFLAGS) -c student.c	
 
-saveToFile.o: saveToFile.c system.h
-	$(CC) $(CFLAGS) -c saveToFile.c
+file: file.o
+	$(CC) $(CFLAGS) -o file file.o
+
+file.o: file.c system.h
+	$(CC) $(CFLAGS) -c file.c
 
 clean:
-	rm -f main grade student *.o
+	rm -f main grade student file *.o

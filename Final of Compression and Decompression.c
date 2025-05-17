@@ -50,7 +50,6 @@ void compressStudentGrades(node* head) {
     FILE* f;
     node* curr;
     student s;
-    int i;
     const char* subj;
     const char* com;
 
@@ -82,7 +81,6 @@ void decompressStudentGrades() {
     char line[256];
     char name[MAX_NAME_LEN];
     int classNum, subCount;
-    int i;
     char subjectCode[MAX_SUB_LEN];
     char commentCode[MAX_COM_LEN];
     int mark;

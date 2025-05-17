@@ -129,6 +129,11 @@ void addGrades(int studentLen, node* inputNode) {
             addComment(&currentStudent, idx);
         }
         printf("Grades filled in for %s!\n", currentStudent.name);
+
+        int idx;
+        for (idx = 0; idx < MAX_SUB_LEN; idx++) {
+            
+        }
     }
     else {
         printf("There are no students to grade!\n");
@@ -156,14 +161,14 @@ void displayGrades(node** inputNode){
         /*true*/
         int idx;
         
-        printf("\n%-*s %-14s %s", MAX_SUB_LEN, "Subject", "Bands", "Comments");
+        printf("\n%-*s %-14s %-s", MAX_SUB_LEN, "Subject", "Bands", "Comments");
         printf("\n--------------------------------------------\n");
 
         for(idx = 0; idx < 5; idx++){
         
         printf("%-*s", MAX_SUB_LEN, currentStudent.subjects[idx].name);
         printf(" %-14d", currentStudent.subjects[idx].mark);
-        printf("%s\n", currentStudent.subjects[idx].comment);
+        printf("%-s\n", currentStudent.subjects[idx].comment);
         }        
         return;
     }

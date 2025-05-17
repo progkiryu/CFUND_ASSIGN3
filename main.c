@@ -5,6 +5,7 @@
 #include "student.c"
 #include "flush.c"
 #include "Final of Compression and Decompression.c"
+#include "file.c"
 
 /* print display menu */
 void printMenu();
@@ -73,7 +74,7 @@ void printMenu() {
     printf("3. Display Student Database\n");
     printf("4. Add Grades\n");
     printf("5. Remove Grades\n");
-    printf("6. Display Grades Database\n")
+    printf("6. Display Grades Database\n");
     printf("7. Save Grade to File\n");
     printf("8. Remove Grade File\n");
     printf("9. Encrypt Grade File\n");
