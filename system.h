@@ -60,7 +60,8 @@ void flush(char *arr, int lengthofArray); /* done (Andrew) */
 void encryptFile(); /* (Andrew) work in progress */
 void decryptFile(); /* (Andrew) work in progress */
 
-/* compression functions */
-void compressWithDictionary();  /*Subnoor*/
-void decompressionWithDictionary(); /*Subnoor*/
+/* compression and decompression functions */
+void compressStudentGrades(node* head);/*Subnoor*/
+void decompressStudentGrades();  /*Subnoor*/
+
 #endif
