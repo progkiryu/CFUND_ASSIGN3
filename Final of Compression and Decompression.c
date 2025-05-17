@@ -64,6 +64,7 @@ void compressStudentGrades(node* head) {
     while (curr) {
         s = curr->nodeStudent;
         fprintf(f, "%s|%d|%d\n", s.name, s.classNumber, MAX_SUBJECTS);
+        int i;
         for (i = 0; i < MAX_SUBJECTS; i++) {
             subj = compressWithDict(s.subjects[i].name, subjectDict, subjectDictLen);
             com = compressWithDict(s.subjects[i].comment, commentDict, commentDictLen);
@@ -101,6 +102,7 @@ void decompressStudentGrades() {
         printf("%-*s %-6s %s\n", MAX_SUB_LEN, "Subject", "Mark", "Comment");
         printf("------------------------------------------\n");
 
+        int i;
         for (i = 0; i < subCount; i++) {
             if (!fgets(line, sizeof(line), f)) {
                 break;
