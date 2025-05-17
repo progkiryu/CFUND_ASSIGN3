@@ -43,6 +43,12 @@ int main(void) {
                 getchar();
                 saveToFile(head);
                 break;
+            case 10:
+                compressStudentGrades(head);
+                break;
+            case 11:
+                decompressStudentGrades();
+                break;
             case 12:
                 while (getchar() != '\n') {}
                 break;
