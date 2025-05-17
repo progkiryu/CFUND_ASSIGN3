@@ -4,6 +4,7 @@
 #include "grade.c"
 #include "student.c"
 #include "flush.c"
+#include "Final of Compression and Decompression.c"
 
 /* print display menu */
 void printMenu();
@@ -43,18 +44,18 @@ int main(void) {
                 getchar();
                 saveToFile(head);
                 break;
-            case 10:
+            case 11:
                 compressStudentGrades(head);
                 break;
-            case 11:
+            case 12:
                 decompressStudentGrades();
                 break;
-            case 12:
+            case 13:
                 while (getchar() != '\n') {}
                 break;
             default:
                 getchar();
-                printf("Please input a number between 1-12!\n");
+                printf("Please input a number between 1-13!\n");
                 break;
         }
         printMenu();
