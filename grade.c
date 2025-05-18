@@ -147,13 +147,32 @@ void displayGrades(node* inputNode){
         int idx;
         
         printf("\n%-*s %-5s %-s", MAX_SUB_LEN, "Subject", "Bands", "Comments");
-        printf("\n-------------------- ----- ----------------------------------\n");
+        printf("\n-------------------- ----- ");
 
-        for(idx = 0; idx < 5; idx++){
-        
-        printf("%-*s", MAX_SUB_LEN, currentStudent.subjects[idx].name);
-        printf(" %-14d", currentStudent.subjects[idx].mark);
-        printf("%-s\n", currentStudent.subjects[idx].comment);
+        /* Allow space for comment section */
+        for (idx = 0; idx < 50; idx++) {
+            printf("-");
+        }
+        printf("\n");
+
+        for (idx = 0; idx < 5; idx++){
+            printf("%-*s ", MAX_SUB_LEN, currentStudent.subjects[idx].name);
+
+            /* check if marks and comments are added to the subjects */
+            if (currentStudent.subjects[idx].mark == 0) {
+                printf("N/A   ");
+            }   
+            else { 
+                printf("%-5d ", currentStudent.subjects[idx].mark);
+            }
+
+            if (currentStudent.subjects[idx].comment[0] == '\0') {
+                printf("N/A");
+            }
+            else {
+                printf("%-s", currentStudent.subjects[idx].comment);
+            }
+            printf("\n");
         }        
         return;
     }
