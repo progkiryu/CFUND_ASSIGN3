@@ -28,7 +28,7 @@ int calculateGrade(int mark) {
     return -1;
 }
 
-void addComment(student* inputStudent, int subjectLen) {
+void addComment(subject* inputSubject) {
     int option;
     char optionString[3];
 
@@ -40,19 +40,17 @@ void addComment(student* inputStudent, int subjectLen) {
     option = atoi(optionString);
     
     if (option == 1) {
-        student currentStudent = *inputStudent;
-        subject sub = currentStudent.subjects[subjectLen];
-        
-        printf("Write comment: ");
-        fgets(sub.comment, sizeof(sub.comment), stdin);
 
-        flush(sub.comment, MAX_COM_LEN);
+        printf("Write comment: ");
+        fgets(inputSubject -> comment, sizeof(inputSubject -> comment), 
+        stdin);
+
+        flush(inputSubject -> comment, MAX_COM_LEN);
     }
 }
 
 void addGrades(int studentLen, node* inputNode) {
     if (studentLen > 0) {
-        student currentStudent;
         char inputName[MAX_NAME_LEN];
         
         printf("\nEnter student name: ");
@@ -61,8 +59,8 @@ void addGrades(int studentLen, node* inputNode) {
         flush(inputName, MAX_NAME_LEN);
 
         /* checks if student is in database via name search */
-        int found = searchStudent(inputName, &currentStudent, inputNode);
-        while (found == -1) {
+        node* found = searchStudent(inputName, inputNode);
+        while (found == NULL) {
                 
             /* user can leave if they want to exit */
             /* if student is not found, either user can keep searching or 
@@ -76,21 +74,22 @@ void addGrades(int studentLen, node* inputNode) {
                 return;
             }
 
-            found = searchStudent(inputName, &currentStudent, inputNode);
+            found = searchStudent(inputName, inputNode);
         }
 
-        int idx, i, ascii, passLoop = 1;
+
+        int idx, i, ascii, passLoop;
         /*length of 5 just in case input is 4 digit like 1000 + '\0'*/
         char stringinputMark[5];
         int inputMark;
 
         for (idx = 0; idx < 5; idx++) {
             passLoop = 1;
-            while(1){
+            while (1) {
                 if(passLoop == 0){break;}
                 passLoop = 0;
 
-                printf("\nEnter mark for %s: ", currentStudent.subjects[idx].name);
+                printf("\nEnter mark for %s: ", found -> nodeStudent.subjects[idx].name);
                 fgets(stringinputMark, 5, stdin);
                 flush(stringinputMark, 5);
                 
@@ -115,54 +114,40 @@ void addGrades(int studentLen, node* inputNode) {
                 }
             }
             
-            /*finding address of node to change mark*/
-            node* temp;
-            temp = inputNode;
-            while(temp != NULL){
-                if(strcmp( temp -> nodeStudent.name, currentStudent.name) == 0){
-                    break;
-                }
-                else{temp = temp -> next;}
-            }
-            temp -> nodeStudent.subjects[idx].mark = calculateGrade(inputMark);
+            found->nodeStudent.subjects[idx].mark = calculateGrade(inputMark);
             
-            addComment(&currentStudent, idx);
+            addComment(&found->nodeStudent.subjects[idx]);
         }
-        printf("Grades filled in for %s!\n", currentStudent.name);
-
-        int idx;
-        for (idx = 0; idx < MAX_SUB_LEN; idx++) {
-            
-        }
+        printf("Grades filled in for %s!\n", found->nodeStudent.name);
     }
     else {
         printf("There are no students to grade!\n");
     }
 }
 
-void displayGrades(node** inputNode){
+void displayGrades(node* inputNode){
     char student_name[MAX_NAME_LEN];
     student currentStudent;
-    int found;
+    node* found;
 
     printf("\nPlease input student name: ");
     fgets(student_name, MAX_NAME_LEN, stdin);
     flush(student_name, MAX_NAME_LEN);
 
-    found = searchStudent(student_name, &currentStudent, *inputNode);
+    found = searchStudent(student_name, inputNode);
     
-    if(found != 0){
+    if (found == NULL) {
         /*false*/
         printf("This student does not exist\n");
         return;
     }
-    
-    else if(found == 0){
+    else {
         /*true*/
+        currentStudent = found -> nodeStudent;
         int idx;
         
-        printf("\n%-*s %-14s %-s", MAX_SUB_LEN, "Subject", "Bands", "Comments");
-        printf("\n--------------------------------------------\n");
+        printf("\n%-*s %-5s %-s", MAX_SUB_LEN, "Subject", "Bands", "Comments");
+        printf("\n-------------------- ----- ----------------------------------\n");
 
         for(idx = 0; idx < 5; idx++){
         

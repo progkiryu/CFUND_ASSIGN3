@@ -3,19 +3,16 @@
 #include <stdlib.h>
 #include "system.h"
 
-int searchStudent(char inputName[MAX_NAME_LEN], student* inputStudent, 
+node* searchStudent(char inputName[MAX_NAME_LEN], 
     node* inputNode) {
-    student currentStudent;
 
     while (inputNode != NULL) {
-        currentStudent = inputNode->nodeStudent;
-        if (strcmp(currentStudent.name, inputName) == 0) {
-            *inputStudent = currentStudent;
-            return 0;
+        if (strcmp(inputNode->nodeStudent.name, inputName) == 0) {
+            return inputNode;
         }
         inputNode = inputNode->next;
     }
-    return -1;
+    return NULL;
 }
 
 void displayStudents(node* inputNode, int studentLen) {
@@ -41,14 +38,14 @@ void displayStudents(node* inputNode, int studentLen) {
 void inputStudent(node** inputNode, int* studentLen) {
     if (*studentLen != MAX_STUDENTS) {
         student newStudent;
+        node* found;
 
         printf("\nEnter student name: ");
         fgets(newStudent.name, sizeof(newStudent.name), stdin);
         flush(newStudent.name, MAX_NAME_LEN);
 
-        int found;
-        found = searchStudent(newStudent.name, &newStudent, *inputNode);
-        while (found == 0) {
+        found = searchStudent(newStudent.name, *inputNode);
+        while (found != NULL) {
             printf("Student already exists!\n");
             printf("Enter student name (type 'exit' to return to menu): ");
             fgets(newStudent.name, sizeof(newStudent.name), stdin);
@@ -58,7 +55,7 @@ void inputStudent(node** inputNode, int* studentLen) {
             if (strcmp(newStudent.name, "exit") == 0) {
                 return;
             }
-            found = searchStudent(newStudent.name, &newStudent, *inputNode);
+            found = searchStudent(newStudent.name, *inputNode);
         } 
 
 
@@ -109,7 +106,7 @@ void inputStudent(node** inputNode, int* studentLen) {
 }
 
 void removeStudent(node** inputNode, int* studentLen) {
-    int found;
+    node* found;
     student currentStudent;
     char student_name[MAX_NAME_LEN];
     
@@ -122,13 +119,13 @@ void removeStudent(node** inputNode, int* studentLen) {
         fgets(student_name, sizeof(student_name), stdin);
         flush(student_name, MAX_NAME_LEN);
     
-        found = searchStudent(student_name, &currentStudent, *inputNode);
-        if(found != 0){
+        found = searchStudent(student_name, *inputNode);
+        if(found == NULL){
             /*false*/
             printf("This student does not exist\n");
         }
     
-        else if(found == 0){
+        else {
             /*true*/
             
             /*if linkedlist only contains entry node*/

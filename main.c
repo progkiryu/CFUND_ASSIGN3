@@ -19,7 +19,7 @@ int main(void) {
     int inputNumber = 0;
     scanf("%d", &inputNumber);
 
-    while (inputNumber != 12) {
+    while (inputNumber != 13) {
         switch (inputNumber) {
             case 1:
                 getchar();
@@ -39,20 +39,19 @@ int main(void) {
                 break;
             case 6:
                 getchar();
-                displayGrades(&head);
+                displayGrades(head);
                 break;
             case 7:
                 getchar();
                 saveToFile(head);
                 break;
             case 11:
+                getchar();
                 compressStudentGrades(head);
                 break;
             case 12:
+                getchar();
                 decompressStudentGrades();
-                break;
-            case 13:
-                while (getchar() != '\n') {}
                 break;
             default:
                 getchar();

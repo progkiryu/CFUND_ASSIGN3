@@ -35,7 +35,7 @@ typedef struct Node node;
 
 void inputStudent(node** inputNode, int* studentLen); /* done (denver) */
 
-int searchStudent(char inputName[MAX_NAME_LEN], student* inputStudent, node* inputNode); /* done (denver) */
+node* searchStudent(char inputName[MAX_NAME_LEN], node* inputNode); /* done (denver) */
 
 void removeStudent(node** inputNode, int* studentLen); /*done (Andrew)*/
 
@@ -47,7 +47,7 @@ void displayStudents(node* inputNode, int studentLen); /* done (denver)*/
 
 /* void displayGrades(); (Andrew)*/
 
-void addComment(student* inputStudent, int subjectLen); /* done (denver) */
+void addComment(subject* inputSubject); /* done (denver) */
 
 void saveToFile(node* head);/* Kevin */
 

@@ -75,7 +75,7 @@ void compressStudentGrades(node* head) {
             curr = curr->next;
             continue;
         }
-
+        int i;
         fprintf(f, "%s|%d|%d\n", s.name, s.classNumber, MAX_SUBJECTS);
         for (i = 0; i < MAX_SUBJECTS; i++) {
             subj = compressWithDict(s.subjects[i].name, subjectDict, subjectDictLen);
@@ -116,7 +116,7 @@ void decompressStudentGrades() {
         printf("Compressed file for %s not found.\n", inputName);
         return;
     }
-
+    int i;
     if (fgets(line, sizeof(line), f)) {
         sscanf(line, "%[^|]|%d|%d", name, &classNum, &subCount);
         printf("\nStudent: %s | Class: %d\n", name, classNum);
