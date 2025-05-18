@@ -4,6 +4,8 @@
 #include <stdlib.h>
 
 /*Work in progress*/
+/*Need to debug: Decryption function: Not handling newline characters properly*/
+/*Need to make sure in encryption function that the compressed file gets overwritten to blank*/
 
 void encryptFile(){
     
