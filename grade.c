@@ -77,6 +77,11 @@ void addGrades(int studentLen, node* inputNode) {
             found = searchStudent(inputName, inputNode);
         }
 
+        /* If grades have already been filled, inform user for changes */
+        if (found -> nodeStudent.filled == 1) {
+            printf("Changing marks for %s!\n", found -> nodeStudent.name);
+        } 
+
 
         int idx, i, ascii, passLoop;
         /*length of 5 just in case input is 4 digit like 1000 + '\0'*/
@@ -119,6 +124,9 @@ void addGrades(int studentLen, node* inputNode) {
             addComment(&found->nodeStudent.subjects[idx]);
         }
         printf("Grades filled in for %s!\n", found->nodeStudent.name);
+
+        /* Assign value to 1 that student's grades are filled */
+        found -> nodeStudent.filled = 1;
     }
     else {
         printf("There are no students to grade!\n");

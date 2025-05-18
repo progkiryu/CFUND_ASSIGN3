@@ -75,6 +75,9 @@ void inputStudent(node** inputNode, int* studentLen) {
             newStudent.subjects[idx].comment[0] = '\0';
         }
 
+        /* Initialise value to 0 since subjects are not filled */
+        newStudent.filled = 0;
+
         node* currentNode = *inputNode;
         /* allocate space for next node */
         node* newNode = (node*)malloc(sizeof(node));

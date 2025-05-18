@@ -23,6 +23,8 @@ struct Student {
     
     subject subjects[MAX_SUBJECTS];
     double average;
+
+    int filled;
 };
 typedef struct Student student;
 
