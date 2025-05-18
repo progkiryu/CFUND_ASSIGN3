@@ -8,12 +8,12 @@
 void encryptFile(){
     
     int i;
-    char key[10], ciphertext[len+1];
+    char key[10];
     char filename[256], student_name[MAX_NAME_LEN];
-    char plainstring[MAX_NAME_LEN+(MAX_SUBJECTS*(MAX_SUB_LEN+MAX_COM_LEN+10))+1];
+    char plainstring[(MAX_SUB_LEN+MAX_COM_LEN+15)];
+    char ciphertext[(MAX_SUB_LEN+MAX_COM_LEN+15)];
 
     strcpy(filename, "grades_compressed/");
-    
     
     printf("Enter student name to encrypt: ");
     fgets(student_name, MAX_NAME_LEN, stdin);
@@ -27,38 +27,36 @@ void encryptFile(){
     flush(key, 10);
 
     /*open file to check if it exists*/
-    FILE *dataFile = fopen("dataFile.txt", "r");
+    FILE *dataFile = fopen(filename, "r");
     
     /*stops function if non-existent*/
     if(dataFile == NULL){
         printf("File does not exist\n");
-        fclose(dataFile);
         return;
     }
 
     else{
-        fgets(plainstring, strlen(plainstring), dataFile)
-        
+        /*opening file for encryption*/
+        FILE *encryptFile = fopen("encryptFile.txt", "w");
+
+        /*repeat fgets until EOF*/
+        while(fgets(plainstring, sizeof(plainstring), dataFile) != NULL){    
+            flush(plainstring, strlen(plainstring));
+
+            /*converting to ciphertext*/
+            for(i=0; plainstring[i] != '\0'; i++){
+                ciphertext[i] = plainstring[i] ^ key[i % strlen(key)];
+            }
+            ciphertext[i] = '\0';
+            
+            /*printing ciphertext as hexadecimal into newfile*/
+            for(i=0; ciphertext[i] != '\0'; i++){
+                printf("%02X ", (unsigned char)ciphertext[i]);
+                fprintf(encryptFile, "%02X ", (unsigned char)ciphertext[i]);
+            }
+        fprintf(encryptFile, "\n");
+        }
         fclose(dataFile);
+        fclose(encryptFile);
     }
-    
-    FILE *dataFile = fopen(, "w");
-
-    
-    /*encrypting data*/
-    for(i=0; i < strlen(plainstring); i++){
-        ciphertext[i] = plainstring[i] ^ key[i % strlen(key)];
-    }
-    ciphertext[len] = '\0';
-
-
-    /*open file to edit*/
-    FILE *dataFile = fopen("dataFile.txt", "w");
-
-    for(i=0; i < len; i++){
-    printf("%02X ", (unsigned char)ciphertext[i]);
-    fprintf(dataFile, "%02X ", (unsigned char)ciphertext[i]);
-    }
-    fprintf(dataFile, "%\n");
-    fclose(dataFile);
 }
