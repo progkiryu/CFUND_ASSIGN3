@@ -15,6 +15,7 @@ void encryptFile(){
 
     strcpy(filename, "grades_compressed/");
     
+    
     printf("Enter student name to encrypt: ");
     fgets(student_name, MAX_NAME_LEN, stdin);
     flush(student_name, MAX_NAME_LEN);
@@ -36,8 +37,14 @@ void encryptFile(){
     }
 
     else{
+        /*naming encryptedfile to be made*/
+        char encryptedfilename[256];
+        strcpy(encryptedfilename, "encrypted");
+        strcat(encryptedfilename, student_name);
+        strcat(encryptedfilename, ".txt");
+        
         /*opening file for encryption*/
-        FILE *encryptFile = fopen("encryptFile.txt", "w");
+        FILE *encryptFile = fopen(encryptedfilename, "w");
 
         /*repeat fgets until EOF*/
         while(fgets(plainstring, sizeof(plainstring), dataFile) != NULL){    
