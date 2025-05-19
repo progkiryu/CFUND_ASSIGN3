@@ -4,7 +4,6 @@
 #include <stdlib.h>
 
 /*Work in progress*/
-/*Need to debug: Decryption function: Not handling newline characters properly*/
 /*Need to make sure in encryption function that the compressed file gets overwritten to blank*/
 
 void encryptFile(){
@@ -12,8 +11,7 @@ void encryptFile(){
     int i;
     char key[10];
     char filename[256], student_name[MAX_NAME_LEN];
-    char plainstring[(MAX_SUB_LEN+MAX_COM_LEN+15)];
-    char ciphertext[(MAX_SUB_LEN+MAX_COM_LEN+15)];
+    char ch;
 
     strcpy(filename, "grades_compressed/");
     
@@ -27,7 +25,7 @@ void encryptFile(){
 
     printf("Please input a password and safely remember it: ");
     fgets(key, 10, stdin);
-    flush(key, 10);
+    key[strcspn(key, "\n")] = '\0';
 
     /*open file to check if it exists*/
     FILE *dataFile = fopen(filename, "r");
@@ -43,28 +41,18 @@ void encryptFile(){
         char encryptedfilename[256];
         strcpy(encryptedfilename, "encrypted");
         strcat(encryptedfilename, student_name);
-        strcat(encryptedfilename, ".txt");
+        strcat(encryptedfilename, ".bin");
         
         /*opening file for encryption*/
-        FILE *encryptFile = fopen(encryptedfilename, "w");
+        FILE *encryptFile = fopen(encryptedfilename, "wb");
 
-        /*repeat fgets until EOF*/
-        while(fgets(plainstring, sizeof(plainstring), dataFile) != NULL){    
-            flush(plainstring, strlen(plainstring));
 
-            /*converting to ciphertext*/
-            for(i=0; plainstring[i] != '\0'; i++){
-                ciphertext[i] = plainstring[i] ^ key[i % strlen(key)];
+        /*encrypting and printing hexadecimal character by character*/        
+        for (i=0; (ch = fgetc(dataFile)) != EOF; i++) {
+                char encrypted = ch ^ key[i % strlen(key)];
+                fprintf(encryptFile, "%02X ", (unsigned char)encrypted);
             }
-            ciphertext[i] = '\0';
-            
-            /*printing ciphertext as hexadecimal into newfile*/
-            for(i=0; ciphertext[i] != '\0'; i++){
-                printf("%02X ", (unsigned char)ciphertext[i]);
-                fprintf(encryptFile, "%02X ", (unsigned char)ciphertext[i]);
-            }
-        fprintf(encryptFile, "\n");
-        }
+
         fclose(dataFile);
         fclose(encryptFile);
     }
@@ -83,7 +71,7 @@ void decryptFile(){
 
     strcpy(encryptedfilename, "encrypted");
     strcat(encryptedfilename, student_name);
-    strcat(encryptedfilename, ".txt");
+    strcat(encryptedfilename, ".bin");
 
     /*open file to check if it exists*/
     FILE *encryptedFile = fopen(encryptedfilename, "r");
@@ -100,12 +88,11 @@ void decryptFile(){
     
     /*naming compressed student file*/
     strcpy(filename, "grades_compressed/");
-    strcat(filename, "test")
+    strcat(filename, "test");
     strcat(filename, student_name);
     strcat(filename, ".txt");
 
     FILE *dataFile = fopen(filename, "w");
-    
     unsigned char byte;
     
     /*decrypting each character*/
