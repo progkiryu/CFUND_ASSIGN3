@@ -4,7 +4,7 @@
 #include "grade.c"
 #include "student.c"
 #include "flush.c"
-#include "Final of Compression and Decompression.c"
+#include "compression.c"
 #include "file.c"
 
 /* print display menu */
@@ -37,19 +37,19 @@ int main(void) {
                 getchar();
                 addGrades(studentLen, head);
                 break;
-            case 6:
+            case 5:
                 getchar();
                 displayGrades(head);
                 break;
-            case 7:
+            case 6:
                 getchar();
                 saveToFile(head);
                 break;
-            case 11:
+            case 10:
                 getchar();
                 compressStudentGrades(head);
                 break;
-            case 12:
+            case 11:
                 getchar();
                 decompressStudentGrades();
                 break;
@@ -72,14 +72,13 @@ void printMenu() {
     printf("2: Remove Student\n");
     printf("3. Display Student Database\n");
     printf("4. Add Grades\n");
-    printf("5. Remove Grades\n");
-    printf("6. Display Grades Database\n");
-    printf("7. Save Grade to File\n");
-    printf("8. Remove Grade File\n");
-    printf("9. Encrypt Grade File\n");
-    printf("10. Decrypt Grade File\n");
-    printf("11. Compress Grade File\n");
-    printf("12. Decompress Grade File\n");
-    printf("13. Exit program\n");
+    printf("5. Display Grades Database\n");
+    printf("6. Save Grade to File\n");
+    printf("7. Remove Grade File\n");
+    printf("8. Encrypt Grade File\n");
+    printf("9. Decrypt Grade File\n");
+    printf("10. Compress Grade File\n");
+    printf("11. Decompress Grade File\n");
+    printf("12. Exit program\n");
     printf("\n");
 }

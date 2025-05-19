@@ -25,5 +25,11 @@ file: file.o
 file.o: file.c system.h
 	$(CC) $(CFLAGS) -c file.c
 
+compression: compression.o
+	$(CC) $(CFLAGS) -o compression compression.o
+
+compression.o: compression.c system.h
+	$(CC) $(CFLAGS) -c compression.c
+
 clean:
-	rm -f main grade student file *.o
+	rm -f main grade student file compression *.o
