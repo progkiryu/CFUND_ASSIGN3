@@ -3,65 +3,72 @@
 #include <string.h>
 #include <stdlib.h>
 
-/*Work in progress*/
-/*Need to make sure in encryption function that the compressed file gets overwritten to blank*/
-
-void encryptFile(){
+void encryptFile(node* head){
     
     int i;
-    char key[10];
+    char key[25];
     char filename[256], student_name[MAX_NAME_LEN];
     char ch;
 
-    strcpy(filename, "grades_compressed/");
-    
-    
-    printf("Enter student name to encrypt: ");
-    fgets(student_name, MAX_NAME_LEN, stdin);
-    flush(student_name, MAX_NAME_LEN);
+    student s;
+    node* current;
 
-    strcat(filename, student_name);
-    strcat(filename, ".txt");
+    current = head;
 
     printf("Please input a password and safely remember it: ");
-    fgets(key, 10, stdin);
-    key[strcspn(key, "\n")] = '\0';
-
-    /*open file to check if it exists*/
-    FILE *dataFile = fopen(filename, "r");
+    fgets(key, 25, stdin);
+    flush(key, 25);
     
-    /*stops function if non-existent*/
-    if(dataFile == NULL){
-        printf("File does not exist\n");
-        return;
-    }
+    while(current){
+        s = current->nodeStudent;
+        strcpy(student_name, s.name);
 
-    else{
-        /*naming encryptedfile to be made*/
-        char encryptedfilename[256];
-        strcpy(encryptedfilename, "encrypted");
-        strcat(encryptedfilename, student_name);
-        strcat(encryptedfilename, ".bin");
+        strcpy(filename, "grades_compressed/");
+        strcat(filename, student_name);
+        strcat(filename, ".txt");
+
+        /*open file to check if it exists*/
+        FILE *dataFile = fopen(filename, "r");
         
-        /*opening file for encryption*/
-        FILE *encryptFile = fopen(encryptedfilename, "wb");
+        /*stops function if non-existent*/
+        if(dataFile == NULL){
+            printf("File does not exist\n");
+            return;
+        }
+
+        else{
+            /*naming encryptedfile to be made*/
+            char encryptedfilename[256];
+            strcpy(encryptedfilename, "encrypted");
+            strcat(encryptedfilename, student_name);
+            strcat(encryptedfilename, ".bin");
+            
+            /*opening file for encryption*/
+            FILE *encryptFile = fopen(encryptedfilename, "wb");
 
 
-        /*encrypting and printing hexadecimal character by character*/        
-        for (i=0; (ch = fgetc(dataFile)) != EOF; i++) {
-                char encrypted = ch ^ key[i % strlen(key)];
-                fprintf(encryptFile, "%02X ", (unsigned char)encrypted);
-            }
+            /*encrypting and printing hexadecimal character by character*/        
+            for (i=0; (ch = fgetc(dataFile)) != EOF; i++) {
+                    char encrypted = ch ^ key[i % strlen(key)];
+                    fprintf(encryptFile, "%02X ", (unsigned char)encrypted);
+                }
 
-        fclose(dataFile);
-        fclose(encryptFile);
+            fclose(dataFile);
+            fclose(encryptFile);
+
+            /*erasing data from compression to make it unreadable*/
+            FILE *dataFile = fopen(filename, "w");
+            fclose(dataFile);
+        }
+        current = current -> next;
     }
+    printf("All files encrypted\n");
 }
 
 
 void decryptFile(){
     int i;
-    char key[10];
+    char key[25];
     char encryptedfilename[256];
     char filename[256], student_name[MAX_NAME_LEN];
     
@@ -83,12 +90,11 @@ void decryptFile(){
     }
 
     printf("Please enter the password: ");
-    fgets(key, 10, stdin);
-    flush(key, 10);
+    fgets(key, 25, stdin);
+    flush(key, 25);
     
     /*naming compressed student file*/
     strcpy(filename, "grades_compressed/");
-    strcat(filename, "test");
     strcat(filename, student_name);
     strcat(filename, ".txt");
 
