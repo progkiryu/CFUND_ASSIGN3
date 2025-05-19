@@ -53,7 +53,7 @@ void addComment(subject* inputSubject); /* done (denver) */
 
 void saveToFile(node* head);/* Kevin */
 
-/*void deleteFile(const char* filename);  Kevin */
+void deleteFile(void);/* Kevin */
 
 void flush(char *arr, int lengthofArray); /* done (Andrew) */
 
