@@ -12,9 +12,9 @@ void encryptFile(node* head){
 
     student s;
     node* current;
-
     current = head;
-
+    
+    printf("\nEncrypting files..\n");
     printf("Please input a password and safely remember it: ");
     fgets(key, 25, stdin);
     flush(key, 25);
@@ -62,11 +62,11 @@ void encryptFile(node* head){
         }
         current = current -> next;
     }
-    printf("All files encrypted\n");
+    printf("All files encrypted.\n");
 }
 
 
-void decryptFile(){
+void decryptFile(char* name){
     int i;
     char key[25];
     char encryptedfilename[256];
@@ -75,6 +75,9 @@ void decryptFile(){
     printf("Enter student name to decrypt: ");
     fgets(student_name, MAX_NAME_LEN, stdin);
     flush(student_name, MAX_NAME_LEN);
+
+    /*setting up given name argument for compression file*/
+    strcpy(name, student_name);
 
     strcpy(encryptedfilename, "encrypted");
     strcat(encryptedfilename, student_name);
