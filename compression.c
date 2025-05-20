@@ -90,7 +90,7 @@ void compressStudentGrades(node* head) {
     printf("All student data compressed into 'grades_compressed' folder.\n");
 }
 
-void decompressStudentGrades() {
+void decompressStudentGrades(char *inputName) {
     FILE* f;
     char line[256];
     char name[MAX_NAME_LEN];
@@ -101,11 +101,6 @@ void decompressStudentGrades() {
     const char* fullSub;
     const char* fullCom;
     char filename[256];
-    char inputName[MAX_NAME_LEN];
-
-    printf("Enter student name to decompress: ");
-    fgets(inputName, sizeof(inputName), stdin);
-    inputName[strcspn(inputName, "\n")] = '\0'; /* remove newline */
 
     strcpy(filename, "grades_compressed/");
     strcat(filename, inputName);
