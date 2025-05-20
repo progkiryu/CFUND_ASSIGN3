@@ -6,6 +6,7 @@
 #include "flush.c"
 #include "compression.c"
 #include "file.c"
+#include "encryption.c"
 
 /* print display menu */
 void printMenu();
@@ -14,12 +15,13 @@ int main(void) {
     /* initialise linked list */
     node* head = NULL;
     int studentLen = 0;
+    char studentName[MAX_NAME_LEN];
 
     printMenu();
     int inputNumber = 0;
     scanf("%d", &inputNumber);
 
-    while (inputNumber != 13) {
+    while (inputNumber != 10) {
         switch (inputNumber) {
             case 1:
                 getchar();
@@ -45,17 +47,19 @@ int main(void) {
                 getchar();
                 saveToFile(head);
                 break;
-            case 10:
+            case 8:
                 getchar();
                 compressStudentGrades(head);
+                encryptFile(head);
                 break;
-            case 11:
+            case 9:
                 getchar();
-                decompressStudentGrades();
+                decryptFile(studentName);
+                decompressStudentGrades(studentName);
                 break;
             default:
                 getchar();
-                printf("Please input a number between 1-13!\n");
+                printf("Please input a number between 1-10!\n");
                 break;
         }
         printMenu();
@@ -75,10 +79,8 @@ void printMenu() {
     printf("5. Display Grades Database\n");
     printf("6. Save Grade to File\n");
     printf("7. Remove Grade File\n");
-    printf("8. Encrypt Grade File\n");
-    printf("9. Decrypt Grade File\n");
-    printf("10. Compress Grade File\n");
-    printf("11. Decompress Grade File\n");
-    printf("12. Exit program\n");
+    printf("8. Compress & Encrypt Grade File\n");
+    printf("9. Decrypt & Decompress Grade File\n");
+    printf("10. Exit program\n");
     printf("\n");
 }
