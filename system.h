@@ -58,11 +58,11 @@ void deleteFile(void);/* Kevin */
 void flush(char *arr, int lengthofArray); /* done (Andrew) */
 
 /* encryption functions */
-void encryptFile(); /* (Andrew) work in progress */
-void decryptFile(); /* (Andrew) work in progress */
+void encryptFile(node* head); /* done (Andrew)  */
+void decryptFile(char* name); /* done (Andrew)  */
 
 /* compression and decompression functions */
 void compressStudentGrades(node* head);/*Subnoor*/
-void decompressStudentGrades();  /*Subnoor*/
+void decompressStudentGrades(char* inputName);  /*Subnoor*/
 
 #endif
