@@ -31,5 +31,11 @@ compression: compression.o
 compression.o: compression.c system.h
 	$(CC) $(CFLAGS) -c compression.c
 
+encryption: encryption.o
+	$(CC) $(CFLAGS) -o encryption encryption.o
+
+encryption.o: encryption.c system.h
+	$(CC) $(CFLAGS) -c encryption.c
+
 clean:
 	rm -f main grade student file compression *.o
