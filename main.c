@@ -21,7 +21,7 @@ int main(void) {
     int inputNumber = 0;
     scanf("%d", &inputNumber);
 
-    while (inputNumber != 10) {
+    while (inputNumber != 9) {
         switch (inputNumber) {
             case 1:
                 getchar();
@@ -47,14 +47,14 @@ int main(void) {
                 getchar();
                 saveToFile(head);
                 break;
+            case 7:
+                getchar();
+                compressStudentGrades(studentName, head);
+                encryptFile(studentName);
+                break;
             case 8:
                 getchar();
-                compressStudentGrades(head);
-                encryptFile(head);
-                break;
-            case 9:
-                getchar();
-                decryptFile(studentName);
+                decryptFile(studentName, head);
                 decompressStudentGrades(studentName);
                 break;
             default:
@@ -78,9 +78,8 @@ void printMenu() {
     printf("4. Add Grades\n");
     printf("5. Display Grades Database\n");
     printf("6. Save Grade to File\n");
-    printf("7. Remove Grade File\n");
-    printf("8. Compress & Encrypt all Grade Files\n");
-    printf("9. Decrypt & Decompress Grade File\n");
-    printf("10. Exit program\n");
+    printf("7. Compress & Encrypt Grade File\n");
+    printf("8. Decrypt & Decompress Grade File\n");
+    printf("9. Exit program\n");
     printf("\n");
 }

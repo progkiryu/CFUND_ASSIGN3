@@ -38,4 +38,4 @@ encryption.o: encryption.c system.h
 	$(CC) $(CFLAGS) -c encryption.c
 
 clean:
-	rm -f main grade student file compression *.o
+	rm -f main *.o

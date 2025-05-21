@@ -47,10 +47,9 @@ const char* decompressWithDict(const char* code, const char* dict[][2], int dict
     return code; /* No match found */
 }
 
-void compressStudentGrades(node* head) {
+void compressStudentGrades(char* inputName, node* inputNode) {
     FILE* f;
-    node* curr;
-    student s;
+    char name[MAX_NAME_LEN];
     const char* subj;
     const char* com;
     char filename[256];
@@ -60,34 +59,55 @@ void compressStudentGrades(node* head) {
 #else
     mkdir("grades_compressed", 0777);
 #endif
+    
+    /* prompt student search via name input */
+    printf("Enter student name to compress and encrpypt their grade file: ");
+    fgets(name, sizeof(name), stdin);
+    flush(name, strlen(name));
+    
+    /* searches student */
+    node* found = searchStudent(name, inputNode);
+    /* allows retries if user inputted wrong name by accident */
+    while (found == NULL) {
+        printf("Enter student name to compress and encrpypt their grade file");
+        printf("(type 'exit' to return to menu): ");
+        fgets(name, sizeof(name), stdin);
+        flush(name, strlen(name));
 
-    curr = head;
-    while (curr) {
-        s = curr->nodeStudent;
-
-        strcpy(filename, "grades_compressed/");
-        strcat(filename, s.name);
-        strcat(filename, ".txt");
-
-        f = fopen(filename, "w");
-        if (!f) {
-            printf("Error opening file for student %s.\n", s.name);
-            curr = curr->next;
-            continue;
+        /* user can enter "exit" to leave the loop */
+        if (strcmp(name, "exit") == 0) {
+            return;
         }
-        int i;
-        fprintf(f, "%s|%d|%d\n", s.name, s.classNumber, MAX_SUBJECTS);
-        for (i = 0; i < MAX_SUBJECTS; i++) {
-            subj = compressWithDict(s.subjects[i].name, subjectDict, subjectDictLen);
-            com = compressWithDict(s.subjects[i].comment, commentDict, commentDictLen);
-            fprintf(f, "%s,%d,%s\n", subj, s.subjects[i].mark, com);
-        }
-
-        fclose(f);
-        curr = curr->next;
+        found = searchStudent(name, inputNode);
     }
 
-    printf("All student data compressed into 'grades_compressed' folder.\n");
+    /* copy name to char pointer after student has been found */
+    strcpy(inputName, name);
+
+    /* add file to compressed folder */
+    strcpy(filename, "grades_compressed/");
+    strcat(filename, inputName);
+    strcat(filename, ".txt");
+
+    f = fopen(filename, "w");
+    if (!f) {
+        printf("Error opening file for student %s.\n", inputName);
+        return;
+    }
+        
+    int i;
+    fprintf(f, "%s|%d|%d\n", inputName, found->nodeStudent.classNumber, MAX_SUBJECTS);
+    for (i = 0; i < MAX_SUBJECTS; i++) {
+        subj = compressWithDict(found -> nodeStudent.subjects[i].name, 
+            subjectDict, subjectDictLen);
+        com = compressWithDict(found -> nodeStudent.subjects[i].comment, 
+            commentDict, commentDictLen);
+        fprintf(f, "%s,%d,%s\n", subj, found -> nodeStudent.subjects[i].mark, com);
+    }
+
+    fclose(f);
+
+    printf("%s's data compressed into 'grades_compressed' folder.\n", inputName);
 }
 
 void decompressStudentGrades(char *inputName) {
