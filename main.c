@@ -79,7 +79,7 @@ void printMenu() {
     printf("5. Display Grades Database\n");
     printf("6. Save Grade to File\n");
     printf("7. Remove Grade File\n");
-    printf("8. Compress & Encrypt Grade File\n");
+    printf("8. Compress & Encrypt all Grade Files\n");
     printf("9. Decrypt & Decompress Grade File\n");
     printf("10. Exit program\n");
     printf("\n");
