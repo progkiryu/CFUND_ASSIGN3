@@ -73,7 +73,7 @@ void decryptFile(char* name){
     char encryptedfilename[256];
     char filename[256], student_name[MAX_NAME_LEN];
     
-    printf("Enter student name to decrypt: ");
+    printf("Enter student name to decrypt & decompress: ");
     fgets(student_name, MAX_NAME_LEN, stdin);
     flush(student_name, MAX_NAME_LEN);
 
