@@ -116,7 +116,7 @@ void decompressStudentGrades(char *inputName) {
         sscanf(line, "%[^|]|%d|%d", name, &classNum, &subCount);
         printf("\nStudent: %s | Class: %d\n", name, classNum);
 
-        printf("%-*s %-6s %s\n", MAX_SUB_LEN, "Subject", "Mark", "Comment");
+        printf("%-*s %-6s %s\n", MAX_SUB_LEN, "Subject", "Bands", "Comment");
         printf("------------------------------------------\n");
 
         for (i = 0; i < subCount; i++) {
