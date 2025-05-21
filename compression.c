@@ -123,7 +123,14 @@ void decompressStudentGrades(char *inputName) {
             if (!fgets(line, sizeof(line), f)) {
                 break;
             }
-            sscanf(line, "%[^,],%d,%[^\n]", subjectCode, &mark, commentCode);
+            int match;
+            match = sscanf(line, "%[^,],%d,%[^\n]", subjectCode, &mark, commentCode);
+            
+            /*checking for any comments; if comment is empty-*/
+            if(match==2){
+                commentCode[0] = '\0';
+            }
+
             fullSub = decompressWithDict(subjectCode, subjectDict, subjectDictLen);
             fullCom = decompressWithDict(commentCode, commentDict, commentDictLen);
             printf("%-*s %-6d %s\n", MAX_SUB_LEN, fullSub, mark, fullCom);
