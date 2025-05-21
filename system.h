@@ -47,7 +47,7 @@ int calculateGrade(int mark); /* done (denver) */
 
 void displayStudents(node* inputNode, int studentLen); /* done (denver)*/
 
-/* void displayGrades(); (Andrew)*/
+void displayGrades(); /* done (Andrew) */
 
 void addComment(subject* inputSubject); /* done (denver) */
 
