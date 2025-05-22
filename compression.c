@@ -54,12 +54,6 @@ void compressStudentGrades(char* inputName, node* inputNode) {
     const char* com;
     char filename[256];
     char removeFile[MAX_NAME_LEN + 4];
-
-#ifdef _WIN32
-    _mkdir("secured_files");
-#else
-    mkdir("secured_files", 0777);
-#endif
     
     /* prompt student search via name input */
     printf("Enter student name to compress and encrpypt their grade file: ");

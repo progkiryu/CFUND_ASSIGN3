@@ -12,6 +12,13 @@
 void printMenu();
 
 int main(void) {
+
+#ifdef _WIN32
+    _mkdir("secured_files");
+#else
+    mkdir("secured_files", 0777);
+#endif
+
     /* initialise linked list */
     node* head = NULL;
     int studentLen = 0;
