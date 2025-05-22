@@ -53,11 +53,12 @@ void compressStudentGrades(char* inputName, node* inputNode) {
     const char* subj;
     const char* com;
     char filename[256];
+    char removeFile[MAX_NAME_LEN + 4];
 
 #ifdef _WIN32
-    _mkdir("grades_compressed");
+    _mkdir("secured_files");
 #else
-    mkdir("grades_compressed", 0777);
+    mkdir("secured_files", 0777);
 #endif
     
     /* prompt student search via name input */
@@ -85,7 +86,7 @@ void compressStudentGrades(char* inputName, node* inputNode) {
     strcpy(inputName, name);
 
     /* add file to compressed folder */
-    strcpy(filename, "grades_compressed/");
+    strcpy(filename, "secured_files/");
     strcat(filename, inputName);
     strcat(filename, ".txt");
 
@@ -107,6 +108,12 @@ void compressStudentGrades(char* inputName, node* inputNode) {
 
     fclose(f);
 
+    /* remove original grade file */
+    strcat(removeFile, inputName);
+    strcat(removeFile, ".txt");
+
+    remove(removeFile);
+
     printf("%s's data compressed into 'grades_compressed' folder.\n", inputName);
 }
 
@@ -122,7 +129,7 @@ void decompressStudentGrades(char *inputName) {
     const char* fullCom;
     char filename[256];
 
-    strcpy(filename, "grades_compressed/");
+    strcpy(filename, "secured_files/");
     strcat(filename, inputName);
     strcat(filename, ".txt");
 

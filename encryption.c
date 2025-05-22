@@ -10,19 +10,13 @@ void encryptFile(char* name){
     char key[25];
     char filename[256];
     char ch;
-
-#ifdef _WIN32
-    _mkdir("grades_encrypted");
-#else
-    mkdir("grades_encrypted", 0777);
-#endif
     
     printf("\nEncrypting files..\n");
     printf("Please input a password and safely remember it: ");
     fgets(key, 25, stdin);
     flush(key, 25);
 
-    strcpy(filename, "grades_compressed/");
+    strcpy(filename, "secured_files/");
     strcat(filename, name);
     strcat(filename, ".txt");
 
@@ -36,7 +30,7 @@ void encryptFile(char* name){
     }
 
     char encryptedfilename[256];
-    strcpy(encryptedfilename, "grades_encrypted/");
+    strcpy(encryptedfilename, "secured_files/");
     strcat(encryptedfilename, name);
     strcat(encryptedfilename, ".bin");
             
@@ -56,6 +50,10 @@ void encryptFile(char* name){
     /*erasing data from compression to make it unreadable*/
     dataFile = fopen(filename, "w");
     fclose(dataFile);
+
+    /* remove compressed grade file */
+    remove(filename);
+
     printf("%s's grade file encrypted.\n", name);
 }
 
@@ -67,14 +65,14 @@ void decryptFile(char* name, node* inputNode){
     char filename[256], student_name[MAX_NAME_LEN];
     
     printf("Enter student name to decrypt & decompress: ");
-    fgets(student_name, MAX_NAME_LEN, stdin);
+    fgets(student_name, sizeof(student_name), stdin);
     flush(student_name, MAX_NAME_LEN);
 
     node* found = searchStudent(student_name, inputNode);
     while (found == NULL) {
         printf("Enter student name to decrypt & decompress (type 'exit' to ");
         printf("return to menu): ");
-        fgets(student_name, MAX_NAME_LEN, stdin);
+        fgets(student_name, sizeof(student_name), stdin);
         flush(student_name, MAX_NAME_LEN);
 
         if (strcmp(student_name, "exit") == 0) {
@@ -87,7 +85,7 @@ void decryptFile(char* name, node* inputNode){
     /*setting up given name argument for compression file*/
     strcpy(name, student_name);
 
-    strcpy(encryptedfilename, "grades_encrypted/");
+    strcpy(encryptedfilename, "secured_files/");
     strcat(encryptedfilename, name);
     strcat(encryptedfilename, ".bin");
 
@@ -101,11 +99,11 @@ void decryptFile(char* name, node* inputNode){
     }
 
     printf("Please enter the password: ");
-    fgets(key, 25, stdin);
-    flush(key, 25);
+    fgets(key, sizeof(key), stdin);
+    flush(key, strlen(key));
     
     /*naming compressed student file*/
-    strcpy(filename, "grades_compressed/");
+    strcpy(filename, "secured_files/");
     strcat(filename, name);
     strcat(filename, ".txt");
 
@@ -114,9 +112,12 @@ void decryptFile(char* name, node* inputNode){
     
     /*decrypting each character*/
     for(i=0; fscanf(encryptedFile, "%2hhX", &byte) == 1; i++){
-            char decrypted = byte ^ key[i % strlen(key)];
-            fprintf(dataFile, "%c", decrypted);
+        char decrypted = byte ^ key[i % strlen(key)];
+        fprintf(dataFile, "%c", decrypted);
     }
+
+    /* remove encrypted grade file */
+    remove(encryptedfilename);
 
     fclose(encryptedFile);
     fclose(dataFile);

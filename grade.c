@@ -139,49 +139,54 @@ void displayGrades(node* inputNode){
     node* found;
 
     printf("\nPlease input student name: ");
-    fgets(student_name, MAX_NAME_LEN, stdin);
-    flush(student_name, MAX_NAME_LEN);
+    fgets(student_name, sizeof(student_name), stdin);
+    flush(student_name, strlen(student_name));
 
     found = searchStudent(student_name, inputNode);
-    
-    if (found == NULL) {
+    while (found == NULL) {
         /*false*/
-        printf("This student does not exist\n");
-        return;
-    }
-    else {
-        /*true*/
-        currentStudent = found -> nodeStudent;
-        int idx;
-        
-        printf("\n%-*s %-5s %-s", MAX_SUB_LEN, "Subject", "Bands", "Comments");
-        printf("\n-------------------- ----- ");
+        printf("Please input student name (type 'exit' to return to menu): ");
+        fgets(student_name, sizeof(student_name), stdin);
+        flush(student_name, strlen(student_name));
 
-        /* Allow space for comment section */
-        for (idx = 0; idx < 50; idx++) {
-            printf("-");
+        if (strcmp(student_name, "exit") == 0) {
+            return;
+        }
+
+        found = searchStudent(student_name, inputNode);
+    }
+
+    /*true*/
+    currentStudent = found -> nodeStudent;
+    int idx;
+        
+    printf("\n%-*s %-5s %-s", MAX_SUB_LEN, "Subject", "Bands", "Comments");
+    printf("\n-------------------- ----- ");
+
+    /* Allow space for comment section */
+    for (idx = 0; idx < 50; idx++) {
+        printf("-");
+    }
+    printf("\n");
+
+    for (idx = 0; idx < 5; idx++){
+        printf("%-*s ", MAX_SUB_LEN, currentStudent.subjects[idx].name);
+
+        /* check if marks and comments are added to the subjects */
+        if (currentStudent.subjects[idx].mark == 0) {
+            printf("N/A   ");
+        }   
+        else { 
+            printf("%-5d ", currentStudent.subjects[idx].mark);
+        }
+
+        if (currentStudent.subjects[idx].comment[0] == '\0') {
+            printf("N/A");
+        }
+        else {
+            printf("%-s", currentStudent.subjects[idx].comment);
         }
         printf("\n");
-
-        for (idx = 0; idx < 5; idx++){
-            printf("%-*s ", MAX_SUB_LEN, currentStudent.subjects[idx].name);
-
-            /* check if marks and comments are added to the subjects */
-            if (currentStudent.subjects[idx].mark == 0) {
-                printf("N/A   ");
-            }   
-            else { 
-                printf("%-5d ", currentStudent.subjects[idx].mark);
-            }
-
-            if (currentStudent.subjects[idx].comment[0] == '\0') {
-                printf("N/A");
-            }
-            else {
-                printf("%-s", currentStudent.subjects[idx].comment);
-            }
-            printf("\n");
-        }        
-        return;
-    }
+    }        
+    return;
 }

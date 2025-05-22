@@ -1,0 +1,6 @@
+Denver Klein|2|5
+HIST,5,ww1 expert
+SCI,6,bill nye
+Maths,6,perfect
+Tech,6,techy
+ENG,2,bad
