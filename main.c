@@ -71,6 +71,10 @@ int main(int argc, char* argv[]) {
                     getchar();
                     saveToFile(head);
                     break;
+                case 7:
+                    getchar();
+                    deleteFile(head);
+                    break；
                 case 8:
                     getchar();
                     compressStudentGrades(studentName);
