@@ -1,8 +1,8 @@
 Student Name: Denver
 
 Subject Scores:
-- 2: 1 points | No comment
-- 2: 1 points | No comment
-- 2: 1 points | No comment
-- 2: 1 points | No comment
-- 2: 1 points | No comment
+- 2: 0 points | No comment
+- 2: 0 points | No comment
+- 2: 0 points | No comment
+- 2: 0 points | No comment
+- 2: 0 points | No comment

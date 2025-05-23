@@ -159,6 +159,12 @@ void displayGrades(node* inputNode){
     /*true*/
     currentStudent = found -> nodeStudent;
     int idx;
+
+    /* check if student's grades have been filled */
+    if (currentStudent.filled == 0) {
+        printf("Student's grades have not been filled!\n");
+        return;
+    }
         
     printf("\n%-*s %-5s %-s", MAX_SUB_LEN, "Subject", "Bands", "Comments");
     printf("\n-------------------- ----- ");
