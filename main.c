@@ -33,7 +33,7 @@ int main(void) {
     scanf("%d", &inputNumber);
 
     /* input dictates what function of the menu is used */
-    while (inputNumber != 9) {
+    while (inputNumber != 10) {
         switch (inputNumber) {
             case 1:
                 getchar();
@@ -92,8 +92,9 @@ void printMenu() {
     printf("4. Add Grades\n");
     printf("5. Display Grades Database\n");
     printf("6. Save Grade to File\n");
-    printf("7. Compress & Encrypt Grade File\n");
-    printf("8. Decrypt & Decompress Grade File\n");
-    printf("9. Exit program\n");
+    printf("7. Remove Grade File");
+    printf("8. Compress & Encrypt Grade File\n");
+    printf("9. Decrypt & Decompress Grade File\n");
+    printf("10. Exit program\n");
     printf("\n");
 }
