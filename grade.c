@@ -122,6 +122,9 @@ void addGrades(int studentLen, node* inputNode) {
             found->nodeStudent.subjects[idx].mark = calculateGrade(inputMark);
             
             addComment(&found->nodeStudent.subjects[idx]);
+            if (strlen(found -> nodeStudent.subjects[idx].comment) == 0) {
+                strcpy(found -> nodeStudent.subjects[idx].comment, "N/A");
+            }
         }
         printf("Grades filled in for %s!\n", found->nodeStudent.name);
 
@@ -134,6 +137,12 @@ void addGrades(int studentLen, node* inputNode) {
 }
 
 void displayGrades(node* inputNode){
+
+    /* checks if no students are in the list */
+    if (inputNode == NULL) {
+        return;
+    }
+
     char student_name[MAX_NAME_LEN];
     student currentStudent;
     node* found;
@@ -156,8 +165,16 @@ void displayGrades(node* inputNode){
         found = searchStudent(student_name, inputNode);
     }
 
+
     /*true*/
     currentStudent = found -> nodeStudent;
+
+    /* check if student's grades have been filled */
+    if (currentStudent.filled == 0) {
+        printf("Student's grades have not been filled!\n");
+        return;
+    }
+
     int idx;
         
     printf("\n%-*s %-5s %-s", MAX_SUB_LEN, "Subject", "Bands", "Comments");
@@ -172,20 +189,9 @@ void displayGrades(node* inputNode){
     for (idx = 0; idx < 5; idx++){
         printf("%-*s ", MAX_SUB_LEN, currentStudent.subjects[idx].name);
 
-        /* check if marks and comments are added to the subjects */
-        if (currentStudent.subjects[idx].mark == 0) {
-            printf("N/A   ");
-        }   
-        else { 
-            printf("%-5d ", currentStudent.subjects[idx].mark);
-        }
-
-        if (currentStudent.subjects[idx].comment[0] == '\0') {
-            printf("N/A");
-        }
-        else {
-            printf("%-s", currentStudent.subjects[idx].comment);
-        }
+        /* print grade details */
+        printf("%-5d ", currentStudent.subjects[idx].mark);
+        printf("%-s", currentStudent.subjects[idx].comment);
         printf("\n");
     }        
     return;

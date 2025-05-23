@@ -1,0 +1,7 @@
+Student: Denver
+Grades:
+- History: Band 6 | ww1
+- Science: Band 6 | N/A
+- Tech: Band 6 | N/A
+- English: Band 6 | macbeth
+- Maths: Band 6 | smart

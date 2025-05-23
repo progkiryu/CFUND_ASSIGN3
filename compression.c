@@ -53,7 +53,7 @@ void compressStudentGrades(char* inputName, node* inputNode) {
     const char* subj;
     const char* com;
     char filename[256];
-    char removeFile[MAX_NAME_LEN + 4];
+    char removeFile[MAX_NAME_LEN + 10];
     
     /* prompt student search via name input */
     printf("Enter student name to compress and encrpypt their grade file: ");
@@ -103,6 +103,7 @@ void compressStudentGrades(char* inputName, node* inputNode) {
     fclose(f);
 
     /* remove original grade file */
+    strcpy(removeFile, "files/");
     strcat(removeFile, inputName);
     strcat(removeFile, ".txt");
 

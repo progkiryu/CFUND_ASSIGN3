@@ -36,7 +36,7 @@ void saveToFile(node* head) {
             return;
         }
 
-        node* found = searchStudent(inputName, head);
+        found = searchStudent(inputName, head);
     }
 
     /* if student's grades are not filled, exit function */
@@ -47,7 +47,7 @@ void saveToFile(node* head) {
 
     /* prepares filename with student's name */
     char filename[MAX_NAME_LEN + 10];
-    strcat(filename, "files/");
+    strcpy(filename, "files/");
     strcat(filename, found -> nodeStudent.name);
     strcat(filename, ".txt");
 
@@ -81,11 +81,12 @@ void saveToFile(node* head) {
     fprintf(fp, "Student: %s\n", found -> nodeStudent.name);
     fprintf(fp, "Grades:\n");
     int idx;
-    for (idx = 0; idx < MAX_SUB_LEN; idx++) {
+    for (idx = 0; idx < MAX_SUBJECTS; idx++) {
         fprintf(fp, "- %s: Band %d | %s\n",
         found -> nodeStudent.subjects[idx].name,
         found -> nodeStudent.subjects[idx].mark,
         found -> nodeStudent.subjects[idx].comment);
+        printf("%d\n", idx);
     }
 
     fclose(fp);
