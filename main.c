@@ -13,6 +13,7 @@ void printMenu();
 
 int main(void) {
 
+/* create folders if they do not exist */
 #ifdef _WIN32
     _mkdir("secured_files");
     _mkdir("files");
@@ -26,10 +27,12 @@ int main(void) {
     int studentLen = 0;
     char studentName[MAX_NAME_LEN];
 
+    /* print display menu and take number input */
     printMenu();
     int inputNumber = 0;
     scanf("%d", &inputNumber);
 
+    /* input dictates what function of the menu is used */
     while (inputNumber != 9) {
         switch (inputNumber) {
             case 1:
@@ -66,8 +69,9 @@ int main(void) {
                 decryptFile(studentName, head);
                 decompressStudentGrades(studentName);
                 break;
+            /* if number is outside 1-9, loop again*/
             default:
-                getchar();
+                while (getchar() != '\n') {};
                 printf("Please input a number between 1-10!\n");
                 break;
         }
@@ -78,6 +82,7 @@ int main(void) {
     return 0;
 }
 
+/* print display menu with the relevant choices */
 void printMenu() {
     printf("\nWelcome to the Grading System:\n");
     printf("\n");

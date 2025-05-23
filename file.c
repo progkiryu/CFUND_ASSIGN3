@@ -14,13 +14,13 @@ void saveToFile(node* head) {
         return;
     }
 
-    // Get the target student's name
+    /* Get the target student's name */
     char targetName[MAX_NAME_LEN];
     printf("Enter the name of the student to save: ");
     fgets(targetName, sizeof(targetName), stdin);
     targetName[strcspn(targetName, "\n")] = '\0';
 
-    // Search the student
+    /* Search the student */
     node* currentNode = head;
     while (currentNode && strcmp(currentNode->nodeStudent.name, targetName) != 0) {
         currentNode = currentNode->next;
@@ -34,11 +34,12 @@ void saveToFile(node* head) {
     strcpy(filename, targetName);
     strcat(filename, ".txt");
 
-    // Check if the file already exists
+    /* Check if the file already exists */
     FILE* f = fopen(filename, "r");
     if (f) {
         fclose(f);
-        printf("Warning:File already exists. Overwrite? (Y/N): ");//Remind the user: Files with the same name will be overwritten
+        /* Remind the user: Files with the same name will be overwritten */
+        printf("Warning:File already exists. Overwrite? (Y/N): ");
         char c;
         if (scanf(" %c", &c) != 1) {
             while (getchar() != '\n');
@@ -46,7 +47,7 @@ void saveToFile(node* head) {
             return;
         }
         while (getchar() != '\n');  
-        if (c != 'Y' && c != 'y') {   //
+        if (c != 'Y' && c != 'y') {   
             printf("Operation cancelled\n");
             return;
         }
@@ -58,9 +59,10 @@ void saveToFile(node* head) {
         return;
     }
 
-    // Write student data to file
+    /* Write student data to file */
     fprintf(studentFile, "Student Name: %s\n\nSubject Scores:\n", targetName);
-    for (int i = 0; i < MAX_SUBJECTS; i++) {
+    int i;
+    for (i = 0; i < MAX_SUBJECTS; i++) {
         subject sub = currentNode->nodeStudent.subjects[i];
 
         fprintf(studentFile, "- %s: ", sub.name);
@@ -71,7 +73,8 @@ void saveToFile(node* head) {
             fprintf(studentFile, "No comment\n");
         } else {
             fprintf(studentFile, "Comment: ");
-            for (int j = 0; sub.comment[j] && j < MAX_COM_LEN; j++) {
+            int j;
+            for (j = 0; sub.comment[j] && j < MAX_COM_LEN; j++) {
                 putc(sub.comment[j] == '\n' ? ' ' : sub.comment[j], studentFile);
             }
             putc('\n', studentFile);
