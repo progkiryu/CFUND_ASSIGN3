@@ -8,34 +8,69 @@ and prompts a warning before overwriting existing files.*/
 
 /*Check the contents of the list*/
 void saveToFile(node* head) {
+
+    /* if there are no students, exit function */
     if (head == NULL) {
         printf("The list is empty!\n"); 
         return;
     }
 
     /*Guide the user to set the file name*/
-    char filename[50];
-    printf("Enter your custom file name (without suffix): ");
-    scanf("%s", filename); 
+    char inputName[MAX_NAME_LEN];
+    printf("Enter student's name to save their grades to file: ");
+    fgets(inputName, sizeof(inputName), stdin);
+    flush(inputName, strlen(inputName));
 
+    /* checks if student exists via name */
+    node* found = searchStudent(inputName, head);
+    while (found == NULL) {
+        /* if student is not found, prompt a search loop until student is found 
+        or not */
+        printf("Enter student's name to save their grades to file ");
+        printf("(type 'exit' to return to menu): ");
+        fgets(inputName, sizeof(inputName), stdin);
+        flush(inputName, strlen(inputName));
+
+        /* user can type 'exit' to escape loop and return to menu */
+        if (strcmp(inputName, "exit") == 0) {
+            return;
+        }
+
+        node* found = searchStudent(inputName, head);
+    }
+
+    /* if student's grades are not filled, exit function */
+    if (found -> nodeStudent.filled == 0) {
+        printf("Student's grades not filled yet!\n");
+        return;
+    }
+
+    /* prepares filename with student's name */
+    char filename[MAX_NAME_LEN + 10];
+    strcat(filename, "files/");
+    strcat(filename, found -> nodeStudent.name);
     strcat(filename, ".txt");
 
     /*Overwrite reminder for the saem name file */
     FILE* check = fopen(filename, "r");
     if (check != NULL) {
         fclose(check);
-        printf("Warning: file \"%s\" already exists. Overwrite? (Y/N): ", filename);
+        printf("Warning: file \"%s\" already exists. ", filename);
+        printf("Overwrite? (Y/N): ");
     }
-    while (getchar() != '\n'); 
 
-    char choice;
-    scanf("%c", &choice);  
+    /* prompts confirmation to create file */
+    char choice[3];
+    printf("Are you sure? (type 'yes' to create, type 'no' to exit): ");
+    fgets(choice, sizeof(choice), stdin);
+    flush(choice, strlen(choice)); 
 
-    if (choice != 'Y' && choice != 'y') {
+    if (strcmp(choice, "yes") == 0) {
         printf("Operation cancelled.\n");
         return;
     }
     
+    /* accounts for abnormal errors */
     FILE* fp = fopen(filename, "w");
     if (fp == NULL) {
         printf("Error: Cannot open file for writing.\n");
@@ -43,33 +78,15 @@ void saveToFile(node* head) {
     }
 
     /*Store the student information*/
-    node* curr = head;
-    while (curr != NULL) {
-        fprintf(fp, "Student: %s\n", curr->nodeStudent.name);
-        int i;
-        while (i < 5) {
-            fprintf(fp, "- %s: %d marks | ", 
-                    curr->nodeStudent.subjects[i].name, 
-                    curr->nodeStudent.subjects[i].mark);
-
-            if (strlen(curr->nodeStudent.subjects[i].comment) == 0) {
-                fprintf(fp, "No comment");
-            } else {
-                char buf[100];
-                strncpy(buf, curr->nodeStudent.subjects[i].comment, 99);
-                buf[99] = '\0';
-                /*for (int j = 0; buf[j]; j++) {
-                    if (buf[j] == '\n') buf[j] = ' ';
-                }*/
-                fprintf(fp, "Comment: %s", buf);
-            }
-            fprintf(fp, "\n");
-            i++;
-        }
-        fprintf(fp, "\n");
-        curr = curr->next;
+    fprintf(fp, "Student: %s\n", found -> nodeStudent.name);
+    fprintf(fp, "Grades:\n");
+    int idx;
+    for (idx = 0; idx < MAX_SUB_LEN; idx++) {
+        fprintf(fp, "- %s: Band %d | %s\n",
+        found -> nodeStudent.subjects[idx].name,
+        found -> nodeStudent.subjects[idx].mark,
+        found -> nodeStudent.subjects[idx].comment);
     }
-
 
     fclose(fp);
     printf("Successfully saved to: %s\n", filename);
