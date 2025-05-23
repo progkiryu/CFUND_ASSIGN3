@@ -1,7 +1,15 @@
 #ifndef GRADE_H
 #define GRADE_H
 
-#define DEBUG
+/*debug mode*/
+/*comment line below to exit debug mode, uncomment to enter debug mode*/
+/*#define DEBUG*/
+
+#ifdef DEBUG
+    #define debug(...) printf(__VA_ARGS__)
+#else
+    #define debug(...)
+#endif
 
 /* define constant numerical boundaries */
 #define MAX_STUDENTS 10
