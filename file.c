@@ -1,77 +1,83 @@
-/*This function stores students' grades and comments in files named by the user (default is .txt),
+/*saveToFile.c
+Function: 
+Save the specified student's score information to a text file named after this student,
 and prompts a warning before overwriting existing files.*/
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "system.h"  
+#include "system.h"
 
-/*Check the contents of the list*/
 void saveToFile(node* head) {
     if (head == NULL) {
-        printf("The list is empty!\n"); 
+        printf("Error: The student list is empty!\n");
         return;
     }
 
-    /*Guide the user to set the file name*/
-    char filename[50];
-    printf("Enter your custom file name (without suffix): ");
-    scanf("%s", filename); 
+    // Get the target student's name
+    char targetName[MAX_NAME_LEN];
+    printf("Enter the name of the student to save: ");
+    fgets(targetName, sizeof(targetName), stdin);
+    targetName[strcspn(targetName, "\n")] = '\0';
 
+    // Search the student
+    node* currentNode = head;
+    while (currentNode && strcmp(currentNode->nodeStudent.name, targetName) != 0) {
+        currentNode = currentNode->next;
+    }
+    if (!currentNode) {
+        printf("Error: Student %s not found\n", targetName);
+        return;
+    }
+
+    char filename[MAX_NAME_LEN + 5];
+    strcpy(filename, targetName);
     strcat(filename, ".txt");
 
-    /*Overwrite reminder for the saem name file */
-    FILE* check = fopen(filename, "r");
-    if (check != NULL) {
-        fclose(check);
-        printf("Warning: file \"%s\" already exists. Overwrite? (Y/N): ", filename);
-    }
-    while (getchar() != '\n'); 
-
-    char choice;
-    scanf("%c", &choice);  
-
-    if (choice != 'Y' && choice != 'y') {
-        printf("Operation cancelled.\n");
-        return;
-    }
-    
-    FILE* fp = fopen(filename, "w");
-    if (fp == NULL) {
-        printf("Error: Cannot open file for writing.\n");
-        return;
-    }
-
-    /*Store the student information*/
-    node* curr = head;
-    while (curr != NULL) {
-        fprintf(fp, "Student: %s\n", curr->nodeStudent.name);
-        int i;
-        while (i < 5) {
-            fprintf(fp, "- %s: %d marks | ", 
-                    curr->nodeStudent.subjects[i].name, 
-                    curr->nodeStudent.subjects[i].mark);
-
-            if (strlen(curr->nodeStudent.subjects[i].comment) == 0) {
-                fprintf(fp, "No comment");
-            } else {
-                char buf[100];
-                strncpy(buf, curr->nodeStudent.subjects[i].comment, 99);
-                buf[99] = '\0';
-                /*for (int j = 0; buf[j]; j++) {
-                    if (buf[j] == '\n') buf[j] = ' ';
-                }*/
-                fprintf(fp, "Comment: %s", buf);
-            }
-            fprintf(fp, "\n");
-            i++;
+    // Check if the file already exists
+    FILE* f = fopen(filename, "r");
+    if (f) {
+        fclose(f);
+        printf("Warning:File already exists. Overwrite? (Y/N): ");//Remind the user: Files with the same name will be overwritten
+        char c;
+        if (scanf(" %c", &c) != 1) {
+            while (getchar() != '\n');
+            printf("Input error. Operation cancelled\n");
+            return;
         }
-        fprintf(fp, "\n");
-        curr = curr->next;
+        while (getchar() != '\n');  
+        if (c != 'Y' && c != 'y') {   //
+            printf("Operation cancelled\n");
+            return;
+        }
     }
 
+    FILE* studentFile = fopen(filename, "w");
+    if (!studentFile) {
+        printf("Failed to create file\n");
+        return;
+    }
 
-    fclose(fp);
-    printf("Successfully saved to: %s\n", filename);
-} 
+    // Write student data to file
+    fprintf(studentFile, "Student Name: %s\n\nSubject Scores:\n", targetName);
+    for (int i = 0; i < MAX_SUBJECTS; i++) {
+        subject sub = currentNode->nodeStudent.subjects[i];
 
+        fprintf(studentFile, "- %s: ", sub.name);
+        if (sub.mark >= 0) fprintf(studentFile, "%d points | ", sub.mark);
+        else fprintf(studentFile, "No score available | ");
+
+        if (sub.mark < 0 || strlen(sub.comment) == 0) {
+            fprintf(studentFile, "No comment\n");
+        } else {
+            fprintf(studentFile, "Comment: ");
+            for (int j = 0; sub.comment[j] && j < MAX_COM_LEN; j++) {
+                putc(sub.comment[j] == '\n' ? ' ' : sub.comment[j], studentFile);
+            }
+            putc('\n', studentFile);
+        }
+    }
+
+    fclose(studentFile);
+    printf("Successfully saved to %s\n", filename);
+}
