@@ -37,8 +37,11 @@ void addComment(subject* inputSubject) {
     printf("any to skip: ");
     fgets(optionString, 3, stdin);
     flush(optionString, 3);
-    option = atoi(optionString);
     
+    debug("debug: %s\n", optionString);
+    option = atoi(optionString);
+    debug("debug: %d", option);
+        
     if (option == 1) {
 
         printf("Write comment: ");
@@ -47,6 +50,7 @@ void addComment(subject* inputSubject) {
 
         flush(inputSubject -> comment, MAX_COM_LEN);
     }
+    debug("debug: %s\n", inputSubject -> comment);
 }
 
 void addGrades(int studentLen, node* inputNode) {
@@ -91,6 +95,7 @@ void addGrades(int studentLen, node* inputNode) {
         for (idx = 0; idx < 5; idx++) {
             passLoop = 1;
             while (1) {
+                debug("debug: passloop = %d\n", passLoop);
                 if(passLoop == 0){break;}
                 passLoop = 0;
 
@@ -111,6 +116,7 @@ void addGrades(int studentLen, node* inputNode) {
                 }
                 /*convert string to int*/
                 inputMark = atoi(stringinputMark);
+                debug("debug: %d", inputMark);
                 
                 /*if input is integers & inputmark within 0-100 range*/
                 if(passLoop!=1 && (inputMark < 0 || inputMark >100)){
@@ -120,6 +126,7 @@ void addGrades(int studentLen, node* inputNode) {
             }
             
             found->nodeStudent.subjects[idx].mark = calculateGrade(inputMark);
+            debug("debug: mark = %d\n", found->nodeStudent.subjects[idx].mark);
             
             addComment(&found->nodeStudent.subjects[idx]);
         }
@@ -141,6 +148,7 @@ void displayGrades(node* inputNode){
     printf("\nPlease input student name: ");
     fgets(student_name, sizeof(student_name), stdin);
     flush(student_name, strlen(student_name));
+    debug("debug: %s", student_name);
 
     found = searchStudent(student_name, inputNode);
     while (found == NULL) {
@@ -165,7 +173,10 @@ void displayGrades(node* inputNode){
         printf("Student's grades have not been filled!\n");
         return;
     }
-        
+    debug("debug: %s ", currentStudent.subjects[0].name);
+    debug("%s ", currentStudent.subjects[0].mark);
+    debug("%s\n\n", currentStudent.subjects[0].comment);
+    
     printf("\n%-*s %-5s %-s", MAX_SUB_LEN, "Subject", "Bands", "Comments");
     printf("\n-------------------- ----- ");
 
