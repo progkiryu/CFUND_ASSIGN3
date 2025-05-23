@@ -30,8 +30,9 @@ void saveToFile(node* head) {
         return;
     }
 
-    char filename[MAX_NAME_LEN + 5];
-    strcpy(filename, targetName);
+    char filename[MAX_NAME_LEN + 10];
+    strcpy(filename, "files/");
+    strcat(filename, targetName);
     strcat(filename, ".txt");
 
     /* Check if the file already exists */
