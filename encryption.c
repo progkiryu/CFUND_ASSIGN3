@@ -10,6 +10,11 @@ void encryptFile(char* name){
     char key[25];
     char filename[256];
     char ch;
+
+    /* if compression failed, do not run function */
+    if (strlen(name) == 0) {
+        return;
+    }
     
     printf("\nEncrypting files..\n");
     printf("Please input a password and safely remember it: ");
@@ -119,6 +124,7 @@ void decryptFile(char* name, node* inputNode){
     /* remove encrypted grade file */
     remove(encryptedfilename);
 
+    /* close files */
     fclose(encryptedFile);
     fclose(dataFile);
 }

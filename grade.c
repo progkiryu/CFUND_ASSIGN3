@@ -172,20 +172,9 @@ void displayGrades(node* inputNode){
     for (idx = 0; idx < 5; idx++){
         printf("%-*s ", MAX_SUB_LEN, currentStudent.subjects[idx].name);
 
-        /* check if marks and comments are added to the subjects */
-        if (currentStudent.subjects[idx].mark == 0) {
-            printf("N/A   ");
-        }   
-        else { 
-            printf("%-5d ", currentStudent.subjects[idx].mark);
-        }
-
-        if (currentStudent.subjects[idx].comment[0] == '\0') {
-            printf("N/A");
-        }
-        else {
-            printf("%-s", currentStudent.subjects[idx].comment);
-        }
+        /* print grade details */
+        printf("%-5d ", currentStudent.subjects[idx].mark);
+        printf("%-s", currentStudent.subjects[idx].comment);
         printf("\n");
     }        
     return;
