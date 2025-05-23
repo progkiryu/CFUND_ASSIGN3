@@ -61,7 +61,7 @@ void addComment(subject* inputSubject); /* done (denver) */
 
 void saveToFile(node* head);/* Kevin */
 
-void deleteFile(void);/* Kevin */
+void deleteFile(node* head);/* Kevin */
 
 void flush(char *arr, int lengthofArray); /* done (Andrew) */
 
