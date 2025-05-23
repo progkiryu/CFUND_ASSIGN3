@@ -93,6 +93,8 @@ int main(int argc, char* argv[]) {
     }
     else if (mode == 2) {
         /* print display menu for students and take number input */
+        char studentName[MAX_NAME_LEN];
+        
         printStudentMenu();
         int inputNumber = 0;
         scanf("%d", &inputNumber);
@@ -101,13 +103,16 @@ int main(int argc, char* argv[]) {
             switch (inputNumber) {
                 case 1:
                     getchar();
-                    /*decryptFile(studentName, head);*/
-                    /*decompressStudentGrades(studentName);*/
+                    decryptFile(studentName);
+                    decompressStudentGrades(studentName);
+                    break;
                 default:
                     while (getchar() != '\n') {};
                     printf("Please input a number between 1-2!\n");
                     break;
             }
+            printStudentMenu();
+            scanf("%d", &inputNumber);
         }
     }
 
@@ -134,6 +139,8 @@ void printTeacherMenu() {
 /* print student menu to view grade files */
 void printStudentMenu() {
     printf("\nStudent Grades System:\n");
+    printf("\n");
     printf("1. Decrypt & Decompress Grade File\n");
     printf("2. Exit program\n");
+    printf("\n");
 }

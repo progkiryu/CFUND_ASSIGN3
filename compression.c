@@ -66,7 +66,6 @@ void compressStudentGrades(char* inputName) {
     strcat(removeFile, ".txt");
 
     /* searches student's grade file */
-    printf("%s\n", removeFile);
     f2 = fopen(removeFile, "r");
     if (!f2) {
         printf("Student file does not exist!\n");

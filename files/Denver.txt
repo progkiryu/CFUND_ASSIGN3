@@ -1,9 +1,0 @@
-Student Name: Denver
-Student Class Number: 2
-
-Subject Grades: 
-- 2: Band 1 | No comment
-- 2: Band 1 | No comment
-- 2: Band 1 | No comment
-- 2: Band 1 | No comment
-- 2: Band 1 | No comment
