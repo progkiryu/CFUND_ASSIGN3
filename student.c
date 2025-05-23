@@ -157,6 +157,8 @@ void removeStudent(node** inputNode, int* studentLen) {
     
                 /*if student name lines up with node in linked list */
                 if(strcmp(removeStudent_node -> nodeStudent.name, currentStudent.name) == 0){
+                    debug("debug: %s\n", removeStudent_node->nodeStudent.name);
+                    debug("debug: %s", currentStudent.name);
                     break;
                 }
     
