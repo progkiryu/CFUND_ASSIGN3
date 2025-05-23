@@ -1,4 +1,5 @@
 /*deleteFile.c
+Function: 
 Delete a student’s report file named after this student*/
 
 #include <stdio.h>
