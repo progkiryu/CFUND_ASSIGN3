@@ -59,12 +59,12 @@ int main(void) {
                 getchar();
                 saveToFile(head);
                 break;
-            case 7:
+            case 8:
                 getchar();
                 compressStudentGrades(studentName, head);
                 encryptFile(studentName);
                 break;
-            case 8:
+            case 9:
                 getchar();
                 decryptFile(studentName, head);
                 decompressStudentGrades(studentName);

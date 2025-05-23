@@ -1,7 +1,8 @@
-Student: Denver
-Grades: 
-- 2: Band 1 | 
-- 2: Band 1 | 
-- 2: Band 1 | 
-- 2: Band 1 | 
-- 2: Band 1 | 
+Student Name: Denver
+
+Subject Scores:
+- 2: 1 points | No comment
+- 2: 1 points | No comment
+- 2: 1 points | No comment
+- 2: 1 points | No comment
+- 2: 1 points | No comment
