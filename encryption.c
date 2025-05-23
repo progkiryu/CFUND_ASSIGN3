@@ -10,6 +10,10 @@ void encryptFile(char* name){
     char key[25];
     char filename[256];
     char ch;
+
+    if (strlen(name) == 0) {
+        return;
+    }
     
     printf("\nEncrypting files..\n");
     printf("Please input a password and safely remember it: ");

@@ -86,7 +86,6 @@ void saveToFile(node* head) {
         found -> nodeStudent.subjects[idx].name,
         found -> nodeStudent.subjects[idx].mark,
         found -> nodeStudent.subjects[idx].comment);
-        printf("%d\n", idx);
     }
 
     fclose(fp);

@@ -65,7 +65,7 @@ void compressStudentGrades(char* inputName, node* inputNode) {
     /* allows retries if user inputted wrong name by accident */
     while (found == NULL) {
         printf("Enter student name to compress and encrpypt their grade file");
-        printf("(type 'exit' to return to menu): ");
+        printf(" (type 'exit' to return to menu): ");
         fgets(name, sizeof(name), stdin);
         flush(name, strlen(name));
 
@@ -113,7 +113,8 @@ void compressStudentGrades(char* inputName, node* inputNode) {
 }
 
 void decompressStudentGrades(char *inputName) {
-    FILE* f;
+    FILE* f1;
+    FILE* f2;
     char line[256];
     char name[MAX_NAME_LEN];
     int classNum, subCount;
@@ -123,41 +124,59 @@ void decompressStudentGrades(char *inputName) {
     const char* fullSub;
     const char* fullCom;
     char filename[256];
+    char orgFile[MAX_NAME_LEN + 10];
 
     strcpy(filename, "secured_files/");
     strcat(filename, inputName);
     strcat(filename, ".txt");
 
-    f = fopen(filename, "r");
-    if (!f) {
+    strcpy(orgFile, "files/");
+    strcat(orgFile, inputName);
+    strcat(orgFile, ".txt");
+
+    f1 = fopen(filename, "r");
+    if (!f1) {
         printf("Compressed file for %s not found.\n", inputName);
         return;
     }
-    int i;
-    if (fgets(line, sizeof(line), f)) {
-        sscanf(line, "%[^|]|%d|%d", name, &classNum, &subCount);
-        printf("\nStudent: %s | Class: %d\n", name, classNum);
 
-        printf("%-*s %-6s %s\n", MAX_SUB_LEN, "Subject", "Bands", "Comment");
-        printf("------------------------------------------\n");
+    f2 = fopen(orgFile, "w");
+    if (!f2) {
+        printf("Error opening file to write!\n");
+        return;
+    }
+
+    int i;
+    if (fgets(line, sizeof(line), f1)) {
+        sscanf(line, "%[^|]|%d|%d", name, &classNum, &subCount);
+        fprintf(f2, "Student: %s\n", name);
+        fprintf(f2, "Grades: \n");
 
         for (i = 0; i < subCount; i++) {
-            if (!fgets(line, sizeof(line), f)) {
+            if (!fgets(line, sizeof(line), f1)) {
                 break;
             }
             int match;
-            match = sscanf(line, "%[^,],%d,%[^\n]", subjectCode, &mark, commentCode);
+            match = sscanf(line, "%[^,],%d,%[^\n]", subjectCode, &mark, 
+            commentCode);
             
             /*checking for any comments; if comment is empty-*/
             if(match==2){
                 commentCode[0] = '\0';
             }
 
-            fullSub = decompressWithDict(subjectCode, subjectDict, subjectDictLen);
-            fullCom = decompressWithDict(commentCode, commentDict, commentDictLen);
+            fullSub = decompressWithDict(subjectCode, subjectDict, 
+            subjectDictLen);
+            fullCom = decompressWithDict(commentCode, commentDict, 
+            commentDictLen);
             printf("%-*s %-6d %s\n", MAX_SUB_LEN, fullSub, mark, fullCom);
+
+            fprintf(f2, "- %s: Band %d | %s\n", fullSub, mark, fullCom);
         }
     }
 
-    fclose(f);
+    fclose(f1);
+    fclose(f2);
+
+    remove(filename);
 }
