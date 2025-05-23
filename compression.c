@@ -47,33 +47,30 @@ const char* decompressWithDict(const char* code, const char* dict[][2], int dict
     return code; /* No match found */
 }
 
-void compressStudentGrades(char* inputName, node* inputNode) {
-    FILE* f;
+void compressStudentGrades(char* inputName) {
+    FILE* f1;
+    FILE* f2;
     char name[MAX_NAME_LEN];
     const char* subj;
     const char* com;
     char filename[256];
-    char removeFile[MAX_NAME_LEN + 4];
+    char removeFile[MAX_NAME_LEN + 10];
     
     /* prompt student search via name input */
-    printf("Enter student name to compress and encrpypt their grade file: ");
+    printf("Enter student name to compress and encrypt their grade file: ");
     fgets(name, sizeof(name), stdin);
     flush(name, strlen(name));
     
-    /* searches student */
-    node* found = searchStudent(name, inputNode);
-    /* allows retries if user inputted wrong name by accident */
-    while (found == NULL) {
-        printf("Enter student name to compress and encrpypt their grade file");
-        printf("(type 'exit' to return to menu): ");
-        fgets(name, sizeof(name), stdin);
-        flush(name, strlen(name));
+    strcpy(removeFile, "files/");
+    strcat(removeFile, name);
+    strcat(removeFile, ".txt");
 
-        /* user can enter "exit" to leave the loop */
-        if (strcmp(name, "exit") == 0) {
-            return;
-        }
-        found = searchStudent(name, inputNode);
+    /* searches student's grade file */
+    printf("%s\n", removeFile);
+    f2 = fopen(removeFile, "r");
+    if (!f2) {
+        printf("Student file does not exist!\n");
+        return;
     }
 
     /* copy name to char pointer after student has been found */
@@ -84,32 +81,54 @@ void compressStudentGrades(char* inputName, node* inputNode) {
     strcat(filename, inputName);
     strcat(filename, ".txt");
 
-    f = fopen(filename, "w");
-    if (!f) {
+    f1 = fopen(filename, "w");
+    if (!f1) {
         printf("Error opening file for student %s.\n", inputName);
         return;
     }
         
-    int i;
-    fprintf(f, "%s|%d|%d\n", inputName, found->nodeStudent.classNumber, MAX_SUBJECTS);
-    for (i = 0; i < MAX_SUBJECTS; i++) {
-        subj = compressWithDict(found -> nodeStudent.subjects[i].name, 
-            subjectDict, subjectDictLen);
-        com = compressWithDict(found -> nodeStudent.subjects[i].comment, 
-            commentDict, commentDictLen);
-        fprintf(f, "%s,%d,%s\n", subj, found -> nodeStudent.subjects[i].mark, com);
+    /* read each line from normal grade file and input details 
+    into the student struct */
+    student temp;
+    char message[256];
+    
+    fgets(message, sizeof(message), f2);
+    sscanf(message, "Student Name: %s", temp.name);
+
+    fgets(message, sizeof(message), f2);
+    sscanf(message, "Student Class Number: %d", &temp.classNumber);
+
+    fgets(message, sizeof(message), f2);
+    fgets(message, sizeof(message), f2);
+
+    int idx;
+    for (idx = 0; idx < MAX_SUBJECTS; idx++) {
+        fgets(message, sizeof(message), f2);
+        sscanf(message, "- %[^:]: Band %d | %[^\n]",
+        temp.subjects[idx].name, &temp.subjects[idx].mark,
+        temp.subjects[idx].comment);
     }
 
-    fclose(f);
+    /* read each attribute from the student and output the compressed 
+    details to the new file*/
+    int i;
+    fprintf(f1, "%s|%d|%d\n", inputName, temp.classNumber, MAX_SUBJECTS);
+    for (i = 0; i < MAX_SUBJECTS; i++) {
+        subj = compressWithDict(temp.subjects[i].name, 
+            subjectDict, subjectDictLen);
+        com = compressWithDict(temp.subjects[i].comment, 
+            commentDict, commentDictLen);
+        fprintf(f1, "%s,%d,%s\n", subj, temp.subjects[i].mark, com);
+    }
+
+    fclose(f1);
+    fclose(f2);
 
     /* remove original grade file */
-    strcpy(removeFile, "files/");
-    strcat(removeFile, inputName);
-    strcat(removeFile, ".txt");
-
     remove(removeFile);
 
-    printf("%s's data compressed into 'grades_compressed' folder.\n", inputName);
+    printf("%s's data compressed into 'grades_compressed' folder.\n", 
+        inputName);
 }
 
 void decompressStudentGrades(char *inputName) {
@@ -149,8 +168,8 @@ void decompressStudentGrades(char *inputName) {
     int i;
     if (fgets(line, sizeof(line), f1)) {
         sscanf(line, "%[^|]|%d|%d", name, &classNum, &subCount);
-        fprintf(f2, "Student: %s\n", name);
-        fprintf(f2, "Grades: \n");
+        fprintf(f2, "Student Name: %s\n", name);
+        fprintf(f2, "Student Class Number: %d\n\n", classNum);        fprintf(f2, "Subject Grades: \n");
 
         for (i = 0; i < subCount; i++) {
             if (!fgets(line, sizeof(line), f1)) {

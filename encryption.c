@@ -63,29 +63,16 @@ void encryptFile(char* name){
 }
 
 
-void decryptFile(char* name, node* inputNode){
+void decryptFile(char* name){
     int i;
     char key[25];
     char encryptedfilename[256];
     char filename[256], student_name[MAX_NAME_LEN];
     
+    /* search for student via name */
     printf("Enter student name to decrypt & decompress: ");
     fgets(student_name, sizeof(student_name), stdin);
     flush(student_name, MAX_NAME_LEN);
-
-    node* found = searchStudent(student_name, inputNode);
-    while (found == NULL) {
-        printf("Enter student name to decrypt & decompress (type 'exit' to ");
-        printf("return to menu): ");
-        fgets(student_name, sizeof(student_name), stdin);
-        flush(student_name, MAX_NAME_LEN);
-
-        if (strcmp(student_name, "exit") == 0) {
-            return;
-        }
-
-        found = searchStudent(student_name, inputNode);
-    }
 
     /*setting up given name argument for compression file*/
     strcpy(name, student_name);

@@ -1,8 +1,9 @@
 Student Name: Denver
+Student Class Number: 2
 
-Subject Scores:
-- 2: 0 points | No comment
-- 2: 0 points | No comment
-- 2: 0 points | No comment
-- 2: 0 points | No comment
-- 2: 0 points | No comment
+Subject Grades: 
+- 2: Band 1 | No comment
+- 2: Band 1 | No comment
+- 2: Band 1 | No comment
+- 2: Band 1 | No comment
+- 2: Band 1 | No comment

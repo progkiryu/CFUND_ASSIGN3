@@ -55,7 +55,7 @@ int calculateGrade(int mark); /* done (denver) */
 
 void displayStudents(node* inputNode, int studentLen); /* done (denver)*/
 
-void displayGrades(); /* done (Andrew) */
+void displayGrades(node* inputNode); /* done (Andrew) */
 
 void addComment(subject* inputSubject); /* done (denver) */
 
@@ -67,10 +67,10 @@ void flush(char *arr, int lengthofArray); /* done (Andrew) */
 
 /* encryption functions */
 void encryptFile(char* name); /* done (Andrew)  */
-void decryptFile(char* name, node* inputNode); /* done (Andrew)  */
+void decryptFile(char* name); /* done (Andrew)  */
 
 /* compression and decompression functions */
-void compressStudentGrades(char* inputName, node* inputNode);/*Subnoor*/
+void compressStudentGrades(char* inputName);/*Subnoor*/
 void decompressStudentGrades(char* inputName);  /*Subnoor*/
 
 #endif

@@ -73,12 +73,12 @@ int main(int argc, char* argv[]) {
                     break;
                 case 8:
                     getchar();
-                    compressStudentGrades(studentName, head);
+                    compressStudentGrades(studentName);
                     encryptFile(studentName);
                     break;
                 case 9:
                     getchar();
-                    decryptFile(studentName, head);
+                    decryptFile(studentName);
                     decompressStudentGrades(studentName);
                     break;
                 /* if number is outside 1-9, loop again*/

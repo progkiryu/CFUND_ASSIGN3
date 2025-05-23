@@ -61,13 +61,17 @@ void saveToFile(node* head) {
     }
 
     /* Write student data to file */
-    fprintf(studentFile, "Student Name: %s\n\nSubject Scores:\n", targetName);
+    fprintf(studentFile, "Student Name: %s\n", targetName);
+    fprintf(studentFile, "Student Class Number: %d\n\n",
+    currentNode->nodeStudent.classNumber);
+
+    fprintf(studentFile, "Subject Scores:\n");
     int i;
     for (i = 0; i < MAX_SUBJECTS; i++) {
         subject sub = currentNode->nodeStudent.subjects[i];
 
         fprintf(studentFile, "- %s: ", sub.name);
-        if (sub.mark >= 0) fprintf(studentFile, "%d points | ", sub.mark);
+        if (sub.mark >= 0) fprintf(studentFile, "Band %d | ", sub.mark);
         else fprintf(studentFile, "No score available | ");
 
         if (sub.mark < 0 || strlen(sub.comment) == 0) {
