@@ -18,6 +18,7 @@
 #define MAX_COM_LEN 50
 #define MAX_NAME_LEN 50
 
+/* subject struct */
 struct Subject {
     char name[MAX_SUB_LEN];
     int mark;
@@ -25,6 +26,7 @@ struct Subject {
 };
 typedef struct Subject subject;
 
+/* student struct */
 struct Student {
     char name[MAX_NAME_LEN];
     int classNumber;
@@ -43,6 +45,7 @@ struct Node {
 };
 typedef struct Node node;
 
+/* relevant function prototypes */
 void inputStudent(node** inputNode, int* studentLen); /* done (denver) */
 
 node* searchStudent(char inputName[MAX_NAME_LEN], node* inputNode); /* done (denver) */
@@ -70,7 +73,7 @@ void encryptFile(char* name); /* done (Andrew)  */
 void decryptFile(char* name); /* done (Andrew)  */
 
 /* compression and decompression functions */
-void compressStudentGrades(char* inputName);/*Subnoor*/
+void compressStudentGrades(node* head, char* inputName);/*Subnoor*/
 void decompressStudentGrades(char* inputName);  /*Subnoor*/
 
 #endif

@@ -36,31 +36,37 @@ void displayStudents(node* inputNode, int studentLen) {
 }
 
 void inputStudent(node** inputNode, int* studentLen) {
+    /* check if linked list is full */
     if (*studentLen != MAX_STUDENTS) {
+        /* initialise relevant variables*/
         student newStudent;
         node* found;
 
+        /* enter new name */
         printf("\nEnter student name: ");
         fgets(newStudent.name, sizeof(newStudent.name), stdin);
         flush(newStudent.name, MAX_NAME_LEN);
 
+        /* search for an existing student */
         found = searchStudent(newStudent.name, *inputNode);
         while (found != NULL) {
+            /* user can leave if they do not want to add students */
             printf("Student already exists!\n");
             printf("Enter student name (type 'exit' to return to menu): ");
             fgets(newStudent.name, sizeof(newStudent.name), stdin);
 
             flush(newStudent.name, MAX_NAME_LEN);
-                        
+                  
             if (strcmp(newStudent.name, "exit") == 0) {
                 return;
             }
             found = searchStudent(newStudent.name, *inputNode);
         } 
 
-
+        /* enter class number */
         printf("Enter class number: ");
         scanf("%d", &newStudent.classNumber);
+        /* account for extra numbers */
         while (getchar() != '\n') {}
 
         int idx;
@@ -109,15 +115,18 @@ void inputStudent(node** inputNode, int* studentLen) {
 }
 
 void removeStudent(node** inputNode, int* studentLen) {
+    /* initialise relevant variables */
     node* found;
     student currentStudent;
     char student_name[MAX_NAME_LEN];
     
+    /* if there are no students, return to menu */
     if(*studentLen == 0){
         printf("\nNo students to remove!\n");
     }
         
     else{
+        /* search student via name */
         printf("\nPlease input name of student to remove: ");
         fgets(student_name, sizeof(student_name), stdin);
         flush(student_name, strlen(student_name));
@@ -130,6 +139,7 @@ void removeStudent(node** inputNode, int* studentLen) {
             fgets(student_name, sizeof(student_name), stdin);
             flush(student_name, strlen(student_name));
 
+            /* user can leave if they enter 'exit' */
             if (strcmp(student_name, "exit") == 0) {
                 return;
             }
@@ -146,6 +156,7 @@ void removeStudent(node** inputNode, int* studentLen) {
         }
             
         else{
+            /* set up node variables */
             node* temp,* prev_node,* later_node, * removeStudent_node;
             temp = *inputNode;
                 

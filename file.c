@@ -9,8 +9,8 @@ and prompts a warning before overwriting existing files.*/
 #include "system.h"
 
 void saveToFile(node* head) {
+    /* if there are no students, do not bother searching */
     if (head == NULL) {
-        printf("Error: The student list is empty!\n");
         return;
     }
 
@@ -18,18 +18,31 @@ void saveToFile(node* head) {
     char targetName[MAX_NAME_LEN];
     printf("Enter the name of the student to save: ");
     fgets(targetName, sizeof(targetName), stdin);
-    targetName[strcspn(targetName, "\n")] = '\0';
+    flush(targetName, strlen(targetName));
 
-    /* Search the student */
-    node* currentNode = head;
-    while (currentNode && strcmp(currentNode->nodeStudent.name, targetName) != 0) {
-        currentNode = currentNode->next;
+    /* search for student in linked list */
+    node* found = searchStudent(targetName, head);
+    while (found == NULL) {
+        /* user can type exit if student does not exist */
+        printf("Enter the name of the student to save ");
+        printf("(type 'exit' to return to menu): ");
+        fgets(targetName, sizeof(targetName), stdin);
+        flush(targetName, strlen(targetName));
+
+        if (strcmp(targetName, "exit") == 0) {
+            return;
+        }
+
+        found = searchStudent(targetName, head);
     }
-    if (!currentNode) {
-        printf("Error: Student %s not found\n", targetName);
+    
+    /* if student's grades are not filled, return to menu */
+    if (found -> nodeStudent.filled == 0) {
+        printf("Student's grades are not filled!\n");
         return;
     }
 
+    /* create file to write the student's grades in */
     char filename[MAX_NAME_LEN + 10];
     strcpy(filename, "files/");
     strcat(filename, targetName);
@@ -40,7 +53,7 @@ void saveToFile(node* head) {
     if (f) {
         fclose(f);
         /* Remind the user: Files with the same name will be overwritten */
-        printf("Warning:File already exists. Overwrite? (Y/N): ");
+        printf("Warning: File already exists. Overwrite? (Y/N): ");
         char c;
         if (scanf(" %c", &c) != 1) {
             while (getchar() != '\n');
@@ -54,6 +67,7 @@ void saveToFile(node* head) {
         }
     }
 
+    /* open file for writing */
     FILE* studentFile = fopen(filename, "w");
     if (!studentFile) {
         printf("Failed to create file\n");
@@ -63,29 +77,21 @@ void saveToFile(node* head) {
     /* Write student data to file */
     fprintf(studentFile, "Student Name: %s\n", targetName);
     fprintf(studentFile, "Student Class Number: %d\n\n",
-    currentNode->nodeStudent.classNumber);
+    found->nodeStudent.classNumber);
 
     fprintf(studentFile, "Subject Scores:\n");
     int i;
     for (i = 0; i < MAX_SUBJECTS; i++) {
-        subject sub = currentNode->nodeStudent.subjects[i];
+        subject sub = found->nodeStudent.subjects[i];
 
         fprintf(studentFile, "- %s: ", sub.name);
         if (sub.mark >= 0) fprintf(studentFile, "Band %d | ", sub.mark);
         else fprintf(studentFile, "No score available | ");
 
-        if (sub.mark < 0 || strlen(sub.comment) == 0) {
-            fprintf(studentFile, "No comment\n");
-        } else {
-            fprintf(studentFile, "Comment: ");
-            int j;
-            for (j = 0; sub.comment[j] && j < MAX_COM_LEN; j++) {
-                putc(sub.comment[j] == '\n' ? ' ' : sub.comment[j], studentFile);
-            }
-            putc('\n', studentFile);
-        }
+        fprintf(studentFile, "Comment: %s\n", sub.comment);
     }
 
+    /* close file and print success message */
     fclose(studentFile);
     printf("Successfully saved to %s\n", filename);
 }
@@ -96,55 +102,47 @@ Function:
 Delete a student’s report file named after this student*/
 
 void deleteFile(node* head) {
-    //Check if there are any students in the list
+
+    /* if there are no students, assume there are no files */
     if (head == NULL) {
-        printf("Error: The student list is empty!\n");
         return;
     }
 
-    //Prompt for the student name whose file to delete
+    /*Prompt for the student name whose file to delete*/
     char studentName[MAX_NAME_LEN];
     printf("Enter the name of the student to delete: ");
     if (fgets(studentName, sizeof(studentName), stdin) == NULL) {
         printf("Error: Failed to read input!\n");
         return;
     }
-    // Remove trailing newline
-    for (int i = 0; studentName[i]; i++) {
-        if (studentName[i] == '\n') {
-            studentName[i] = '\0';
-            break;
-        }
-    }
+    /* clear extra input */
+    flush(studentName, strlen(studentName));
 
-    //Search for the student in the linked list
-    node* current = head;
-    int found = 0;
-    while (current != NULL) {
-        if (strcmp(current->nodeStudent.name, studentName) == 0) {
-            found = 1;
-            break;
-        }
-        current = current->next;
-    }
-    if (!found) {
-        printf("Error: Student \"%s\" not found\n", studentName);
-        return;
-    }
+    /*Build the filename*/
+    char filename[MAX_NAME_LEN + 10];
+    strcpy(filename, "files/");
+    strcat(filename, studentName);
+    strcat(filename, ".txt");
 
-    //Build the filename
-    char filename[MAX_NAME_LEN + 12];
-    snprintf(filename, sizeof(filename), "%s_report.txt", studentName);
+    /* also remove encrypted file name */
+    char encryptFile[MAX_NAME_LEN + 17];
+    strcpy(encryptFile, "secured_files/");
+    strcat(encryptFile, studentName);
+    strcat(encryptFile, ".bin");
 
-    //Check if the file exists
+    /*Check if either file exists */
     FILE* fileTest = fopen(filename, "r");
-    if (fileTest == NULL) {
-        printf("Notice: Report file \"%s\" does not exist\n", filename);
+    FILE* fileTest2 = fopen(encryptFile, "rb");
+    if (fileTest == NULL && fileTest2 == NULL) {
+        printf("Notice: Report file \"%s\" do not exist\n", filename);
         return;
     }
     fclose(fileTest);
+    fclose(fileTest2);
 
-    //Confirm deletion
+    printf("bruh");
+
+    /*Confirm deletion*/
     printf("WARNING: This will delete \"%s\". Continue? (Y/N): ", filename);
     char confirm;
     if (scanf(" %c", &confirm) != 1) {
@@ -158,10 +156,19 @@ void deleteFile(node* head) {
         return;
     }
 
-    //Perform deletion
-    if (remove(filename) == 0) {
-        printf("Successfully deleted \"%s\"\n", filename);
-    } else {
-        printf("Error: Failed to delete \"%s\"\n", filename);
+    /*Perform deletion*/
+    if (fileTest != NULL) {
+        if (remove(filename) == 0) {
+            printf("Successfully deleted \"%s\"\n", filename);
+        } else {
+            printf("Error: Failed to delete \"%s\"\n", filename);
+        }
+    }
+    if (fileTest2 != NULL) {
+        if (remove(encryptFile) == 0) {
+            printf("Successfully deleted \"%s\"\n", encryptFile);
+        } else {
+            printf("Error: Failed to delete \"%s\"\n", encryptFile);
+        }
     }
 }

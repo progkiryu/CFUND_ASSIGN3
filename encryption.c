@@ -64,19 +64,21 @@ void encryptFile(char* name){
 
 
 void decryptFile(char* name){
+    /* intialise relevant variables */
     int i;
     char key[25];
     char encryptedfilename[256];
     char filename[256], student_name[MAX_NAME_LEN];
     
     /* search for student via name */
-    printf("Enter student name to decrypt & decompress: ");
+    printf("\nEnter student name to decrypt & decompress: ");
     fgets(student_name, sizeof(student_name), stdin);
     flush(student_name, MAX_NAME_LEN);
 
     /*setting up given name argument for compression file*/
     strcpy(name, student_name);
 
+    /* open encryption file */
     strcpy(encryptedfilename, "secured_files/");
     strcat(encryptedfilename, name);
     strcat(encryptedfilename, ".bin");
@@ -87,9 +89,11 @@ void decryptFile(char* name){
     /*stops function if non-existent*/
     if(encryptedFile == NULL){
         printf("File does not exist\n");
+        name[0] = '\0';
         return;
     }
 
+    /* check if encryption key is correct */
     printf("Please enter the password: ");
     fgets(key, sizeof(key), stdin);
     flush(key, strlen(key));
@@ -99,6 +103,7 @@ void decryptFile(char* name){
     strcat(filename, name);
     strcat(filename, ".txt");
 
+    /* open compression file to write */
     FILE* dataFile = fopen(filename, "w");
     unsigned char byte;
     

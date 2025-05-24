@@ -32,18 +32,20 @@ void addComment(subject* inputSubject) {
     int option;
     char optionString[3];
 
+    /* decide to write comment via input */
     printf("\nEnter:\n");
     printf("'1' to comment\n");
     printf("any to skip: ");
     fgets(optionString, 3, stdin);
     flush(optionString, 3);
     
+    /* convert option to integer */
     debug("debug: %s\n", optionString);
     option = atoi(optionString);
     debug("debug: %d", option);
         
+    /* write comment */
     if (option == 1) {
-
         printf("Write comment: ");
         fgets(inputSubject -> comment, sizeof(inputSubject -> comment), 
         stdin);
@@ -119,7 +121,7 @@ void addGrades(int studentLen, node* inputNode) {
                 debug("debug: %d", inputMark);
                 
                 /*if input is integers & inputmark within 0-100 range*/
-                if(passLoop!=1 && (inputMark < 0 || inputMark >100)){
+                if(passLoop!=1 && (inputMark < 0 || inputMark > 100)){
                     printf("Grade needs to be within 0 - 100, try again..\n\n");
                     passLoop = 1;
                 }
@@ -129,6 +131,9 @@ void addGrades(int studentLen, node* inputNode) {
             debug("debug: mark = %d\n", found->nodeStudent.subjects[idx].mark);
             
             addComment(&found->nodeStudent.subjects[idx]);
+            if (strlen(found -> nodeStudent.subjects[idx].comment) == 0) {
+                strcpy(found -> nodeStudent.subjects[idx].comment, "N/A");
+            }
         }
         printf("Grades filled in for %s!\n", found->nodeStudent.name);
 
@@ -141,10 +146,18 @@ void addGrades(int studentLen, node* inputNode) {
 }
 
 void displayGrades(node* inputNode){
+    /* if there are no students, do not bother searching */
+    if (inputNode == NULL) {
+        printf("There are no students to display grades!\n");
+        return;
+    }
+
+    /* initialise input variables */
     char student_name[MAX_NAME_LEN];
     student currentStudent;
     node* found;
 
+    /* search for student via name */
     printf("\nPlease input student name: ");
     fgets(student_name, sizeof(student_name), stdin);
     flush(student_name, strlen(student_name));
@@ -174,9 +187,10 @@ void displayGrades(node* inputNode){
         return;
     }
     debug("debug: %s ", currentStudent.subjects[0].name);
-    debug("%s ", currentStudent.subjects[0].mark);
+    debug("%d ", currentStudent.subjects[0].mark);
     debug("%s\n\n", currentStudent.subjects[0].comment);
     
+    /* print grade format */
     printf("\n%-*s %-5s %-s", MAX_SUB_LEN, "Subject", "Bands", "Comments");
     printf("\n-------------------- ----- ");
 

@@ -47,7 +47,8 @@ const char* decompressWithDict(const char* code, const char* dict[][2], int dict
     return code; /* No match found */
 }
 
-void compressStudentGrades(char* inputName) {
+void compressStudentGrades(node* head, char* inputName) {
+    /* initialise relevant variables */
     FILE* f1;
     FILE* f2;
     char name[MAX_NAME_LEN];
@@ -55,9 +56,15 @@ void compressStudentGrades(char* inputName) {
     const char* com;
     char filename[256];
     char removeFile[MAX_NAME_LEN + 10];
+
+    /* if there are no students, do not bother searching */
+    if (head == NULL) {
+        printf("\nNo students in database!\n");
+        return;
+    }
     
     /* prompt student search via name input */
-    printf("Enter student name to compress and encrypt their grade file: ");
+    printf("\nEnter student name to compress and encrypt their grade file: ");
     fgets(name, sizeof(name), stdin);
     flush(name, strlen(name));
     
@@ -69,6 +76,7 @@ void compressStudentGrades(char* inputName) {
     f2 = fopen(removeFile, "r");
     if (!f2) {
         printf("Student file does not exist!\n");
+        inputName[0] = '\0';
         return;
     }
 
@@ -80,9 +88,11 @@ void compressStudentGrades(char* inputName) {
     strcat(filename, inputName);
     strcat(filename, ".txt");
 
+    /* open file to write */
     f1 = fopen(filename, "w");
     if (!f1) {
         printf("Error opening file for student %s.\n", inputName);
+        inputName[0] = '\0';
         return;
     }
         
@@ -131,6 +141,7 @@ void compressStudentGrades(char* inputName) {
 }
 
 void decompressStudentGrades(char *inputName) {
+    /* initialise relevant variables */
     FILE* f1;
     FILE* f2;
     char line[256];
@@ -144,31 +155,43 @@ void decompressStudentGrades(char *inputName) {
     char filename[256];
     char orgFile[MAX_NAME_LEN + 10];
 
+    /* if decryption did not work, return to menu */
+    if (strlen(inputName) == 0) {
+        return;
+    }
+
+    /* create filename for compressed file */
     strcpy(filename, "secured_files/");
     strcat(filename, inputName);
     strcat(filename, ".txt");
 
+    /* create filename for normal grade file */
     strcpy(orgFile, "files/");
     strcat(orgFile, inputName);
     strcat(orgFile, ".txt");
 
+    /* open compression file to read */
     f1 = fopen(filename, "r");
     if (!f1) {
         printf("Compressed file for %s not found.\n", inputName);
         return;
     }
 
+    /* open normal grade file to write */
     f2 = fopen(orgFile, "w");
     if (!f2) {
         printf("Error opening file to write!\n");
         return;
     }
 
+    /* in each line from the compression file, write into the normal grade 
+    file */
     int i;
     if (fgets(line, sizeof(line), f1)) {
         sscanf(line, "%[^|]|%d|%d", name, &classNum, &subCount);
         fprintf(f2, "Student Name: %s\n", name);
-        fprintf(f2, "Student Class Number: %d\n\n", classNum);        fprintf(f2, "Subject Grades: \n");
+        fprintf(f2, "Student Class Number: %d\n\n", classNum);        
+        fprintf(f2, "Subject Grades:\n");
 
         for (i = 0; i < subCount; i++) {
             if (!fgets(line, sizeof(line), f1)) {
@@ -191,9 +214,10 @@ void decompressStudentGrades(char *inputName) {
             fprintf(f2, "- %s: Band %d | %s\n", fullSub, mark, fullCom);
         }
     }
-
+    /* close file pointers */
     fclose(f1);
     fclose(f2);
 
+    /* remove compression file */
     remove(filename);
 }

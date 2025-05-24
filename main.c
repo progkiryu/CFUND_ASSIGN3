@@ -31,8 +31,10 @@ int main(int argc, char* argv[]) {
         printf("2 for Students\n");
         exit(1);
     }
+    /* convert input to integer */
     mode = atoi(argv[1]);
 
+    /* for teachers */
     if (mode == 1) {
         /* initialise linked list */
         node* head = NULL;
@@ -74,10 +76,10 @@ int main(int argc, char* argv[]) {
                 case 7:
                     getchar();
                     deleteFile(head);
-                    break；
+                    break;
                 case 8:
                     getchar();
-                    compressStudentGrades(studentName);
+                    compressStudentGrades(head, studentName);
                     encryptFile(studentName);
                     break;
                 case 9:
@@ -95,14 +97,17 @@ int main(int argc, char* argv[]) {
             scanf("%d", &inputNumber);
         }
     }
+    /* for students */
     else if (mode == 2) {
         /* print display menu for students and take number input */
         char studentName[MAX_NAME_LEN];
         
+        /* print menu and prompt for input */
         printStudentMenu();
         int inputNumber = 0;
         scanf("%d", &inputNumber);
 
+        /* enter loop until user exits or uses the decrypt function */
         while (inputNumber != 2) {
             switch (inputNumber) {
                 case 1:
