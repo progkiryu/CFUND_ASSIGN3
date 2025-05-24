@@ -6,10 +6,12 @@
 node* searchStudent(char inputName[MAX_NAME_LEN], 
     node* inputNode) {
 
+    /* iterates through each student until name matches*/
     while (inputNode != NULL) {
         if (strcmp(inputNode->nodeStudent.name, inputName) == 0) {
             return inputNode;
         }
+        /* copies node */
         inputNode = inputNode->next;
     }
     return NULL;
@@ -17,17 +19,42 @@ node* searchStudent(char inputName[MAX_NAME_LEN],
 
 void displayStudents(node* inputNode, int studentLen) {
     if (studentLen > 0) {
-        student currentStudent;
 
+        /* display format of students */
         printf("\nName                 Class\n");
         printf("-------------------- -----\n");
 
-        while (inputNode != NULL) {
-            currentStudent = inputNode->nodeStudent;
-            printf("%-20.20s %-5d\n", currentStudent.name, 
-                currentStudent.classNumber);
+        node* temp = inputNode;
+        student sorted[studentLen];
+        int idx = 0;
+        while (temp != NULL && idx < studentLen) {
+            sorted[idx] = temp -> nodeStudent;
+            temp = temp -> next;
+            idx++;
+        }
+        int sidx, tidx, minIdx;
+        student tempStu;
+        for (sidx = 0; sidx < studentLen; sidx++) {
+            minIdx = sidx;
+            for (tidx = sidx + 1; tidx < studentLen; tidx++) {
+                if (strcmp(sorted[tidx].name, sorted[minIdx].name) < 0) {
+                    minIdx = tidx;
+                }
+            }
 
-            inputNode = inputNode->next;
+            if (minIdx != sidx) {
+                tempStu = sorted[sidx];
+                sorted[sidx] = sorted[minIdx];
+                sorted[minIdx] = tempStu;   
+            }
+        }
+        
+        student currStudent;
+        int arrIdx;
+        for (arrIdx = 0; arrIdx < studentLen; arrIdx++) {
+            currStudent = sorted[arrIdx];
+            printf("%-20.20s %-5d\n", currStudent.name, 
+                currStudent.classNumber);
         }
     }
     else {
@@ -117,7 +144,6 @@ void inputStudent(node** inputNode, int* studentLen) {
 void removeStudent(node** inputNode, int* studentLen) {
     /* initialise relevant variables */
     node* found;
-    student currentStudent;
     char student_name[MAX_NAME_LEN];
     
     /* if there are no students, return to menu */
@@ -148,51 +174,42 @@ void removeStudent(node** inputNode, int* studentLen) {
         }
     
         /*true*/
-            
+        node* temp = *inputNode;
+        node* after = temp -> next;
         /*if linkedlist only contains entry node*/
         if(*studentLen == 1){
             free(*inputNode);
             *inputNode = NULL;
         }
-            
+        /* if the student is at the 1st node, change the head node
+        by swapping to the next */
+        else if (strcmp(found -> nodeStudent.name, 
+            temp -> nodeStudent.name) == 0) {
+            *inputNode = temp -> next;
+        }
         else{
-            /* set up node variables */
-            node* temp,* prev_node,* later_node, * removeStudent_node;
-            temp = *inputNode;
-                
-            while(temp != NULL){
-    
-                prev_node = temp;
-                removeStudent_node = temp -> next;
-                later_node = temp -> next -> next;
-    
-                /*if student name lines up with node in linked list */
-                if(strcmp(removeStudent_node -> nodeStudent.name, currentStudent.name) == 0){
-                    debug("debug: %s\n", removeStudent_node->nodeStudent.name);
-                    debug("debug: %s", currentStudent.name);
-                    break;
-                }
-    
-                /*considering condition: entry node is the student to be removed*/
-                else if(strcmp(prev_node -> nodeStudent.name, currentStudent.name) == 0){
-                    removeStudent_node = prev_node;
-                    later_node = removeStudent_node -> next;
-                    prev_node = NULL;
-                    break;
+            /* if the student is found past the 1st node, search
+            throughout the list */
+            while (after == NULL) {
+                if (strcmp(after -> nodeStudent.name, 
+                    found -> nodeStudent.name) == 0) {
+                    return;
                 }
                 temp = temp -> next;
+                after = after -> next;
+            }
+            
+            if (after -> next != NULL) {
+                temp -> next = after -> next;
+            }
+            /* if student was at the last node, make the previous node's 
+            neighbour null */
+            else {
+                temp -> next = NULL;
             }
                 
-            /*mending the linked list, removing student from list*/
-            if(prev_node != NULL){
-                prev_node -> next = later_node;
-            }
-            /*if entry node was to be removed, changes the linked list head*/
-            else if(prev_node == NULL){
-                *inputNode = later_node;
-            }
             /*free linked list memory*/
-            free(removeStudent_node);
+            free(after);
     
         }
         *studentLen -= 1;
