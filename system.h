@@ -73,7 +73,7 @@ void encryptFile(char* name); /* done (Andrew)  */
 void decryptFile(char* name); /* done (Andrew)  */
 
 /* compression and decompression functions */
-void compressStudentGrades(node* head, char* inputName);/*Subnoor*/
-void decompressStudentGrades(char* inputName);  /*Subnoor*/
+void compressStudentGrades(node* head, char* inputName);/* done (Subnoor)*/
+void decompressStudentGrades(char* inputName);  /* done (Subnoor)*/
 
 #endif

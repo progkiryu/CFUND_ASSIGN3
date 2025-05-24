@@ -11,6 +11,7 @@ and prompts a warning before overwriting existing files.*/
 void saveToFile(node* head) {
     /* if there are no students, do not bother searching */
     if (head == NULL) {
+        printf("Error: The student list is empty!\n");
         return;
     }
 
