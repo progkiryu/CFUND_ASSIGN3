@@ -178,34 +178,58 @@ void displayGrades(node* inputNode){
     }
 
     /*true*/
+    /* add grades to array */
     currentStudent = found -> nodeStudent;
+    subject subs[MAX_SUBJECTS];
     int idx;
+    for (idx = 0; idx < MAX_SUBJECTS; idx++) {
+        subs[idx] = currentStudent.subjects[idx];
+    }
+
+    /* bubble sort grades by marks */
+    int sidx;
+    int sorted = 0;
+    while (sorted == 0) {
+        sorted = 1;
+        for (sidx = 1; sidx < MAX_SUBJECTS; sidx++) {
+            if (subs[sidx].mark < subs[sidx - 1].mark) {
+                int temp = subs[sidx].mark;
+                subs[sidx].mark = subs[sidx - 1].mark;
+                subs[sidx - 1].mark = temp;
+                sorted = 0;
+            }
+        }
+    }
+
+
+
+    int gidx;
 
     /* check if student's grades have been filled */
     if (currentStudent.filled == 0) {
         printf("Student's grades have not been filled!\n");
         return;
     }
-    debug("debug: %s ", currentStudent.subjects[0].name);
-    debug("%d ", currentStudent.subjects[0].mark);
-    debug("%s\n\n", currentStudent.subjects[0].comment);
+    debug("debug: %s ", subs[0].name);
+    debug("%d ", subs[0].mark);
+    debug("%s\n\n", subs[0].comment);
     
     /* print grade format */
     printf("\n%-*s %-5s %-s", MAX_SUB_LEN, "Subject", "Bands", "Comments");
     printf("\n-------------------- ----- ");
 
     /* Allow space for comment section */
-    for (idx = 0; idx < 50; idx++) {
+    for (gidx = 0; gidx < 50; gidx++) {
         printf("-");
     }
     printf("\n");
 
-    for (idx = 0; idx < 5; idx++){
-        printf("%-*s ", MAX_SUB_LEN, currentStudent.subjects[idx].name);
+    for (gidx = 0; gidx < 5; gidx++){
+        printf("%-*s ", MAX_SUB_LEN, subs[gidx].name);
 
         /* print grade details */
-        printf("%-5d ", currentStudent.subjects[idx].mark);
-        printf("%-s", currentStudent.subjects[idx].comment);
+        printf("%-5d ", subs[gidx].mark);
+        printf("%-s", subs[gidx].comment);
         printf("\n");
     }        
     return;

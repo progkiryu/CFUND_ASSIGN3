@@ -24,6 +24,7 @@ void displayStudents(node* inputNode, int studentLen) {
         printf("\nName                 Class\n");
         printf("-------------------- -----\n");
 
+        /* store students in array */
         node* temp = inputNode;
         student sorted[studentLen];
         int idx = 0;
@@ -32,6 +33,9 @@ void displayStudents(node* inputNode, int studentLen) {
             temp = temp -> next;
             idx++;
         }
+
+        /* implement selection sort to display students in 
+        alphabetical order */
         int sidx, tidx, minIdx;
         student tempStu;
         for (sidx = 0; sidx < studentLen; sidx++) {
